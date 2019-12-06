@@ -7,7 +7,7 @@ window.onload = function () {
         height = canvas.height = this.innerHeight,
         time = 0;
 
-        context.strokeStyle = 'black';
+        context.strokeStyle = 'white';
 
         context.translate(width/2, height/2);
         context.rotate((-15 * Math.PI) / 180);
@@ -53,9 +53,11 @@ window.onload = function () {
 
         function render() {
 
+            context.strokeStyle = 'hsl(' + (size / 5) + ', 100%, 70%)';
+
             for (let i = 0; i < 2; i++) {
 
-            size += 2;
+            size += 5;
             
                 if (i % 2 == 0) {
 
