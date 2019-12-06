@@ -9,14 +9,8 @@ window.onload = function () {
 
         context.strokeStyle = 'black';
 
-        // context.beginPath();
-
-        // context.moveTo(width, height);
-        // context.lineTo(100,0);
-
-        // context.stroke();
-
         context.translate(width/2, height/2);
+        context.rotate((-15 * Math.PI) / 180);
 
 
         function createTri(sizeLength) {
@@ -53,25 +47,34 @@ window.onload = function () {
             
         }
 
-        var size = 10;
+        var size = 30;
+
+        render()
+
+        function render() {
+
+            for (let i = 0; i < 2; i++) {
+
+            size += 2;
+            
+                if (i % 2 == 0) {
+
+                    createTri(size);
+                    
+                } else {
+
+                    createCircle(size);
+
+                }
+            }
+
+            // context.rotate(.2);
+
+            setTimeout( window.requestAnimationFrame, 30, (render));
+
+        }
 
         
-
-        for (let i = 0; i < 100; i++) {
-
-            size += 10;
-            
-            if (i % 2 == 0) {
-
-                createTri(size);
-                
-            } else {
-
-                createCircle(size);
-
-            }
-            
-        }
 
 
         
