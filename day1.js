@@ -34,12 +34,28 @@ window.onload = function () {
                 
             }
         }
+        
 
         function createCircle(radius) {
+
+            for (let i = 0; i < 36; i++) {
+                context.beginPath();
+
+                context.moveTo(radius, radius);
+
+                context.rotate((10 * Math.PI)/180);
+
+                context.lineTo(radius, radius);
+
+                context.stroke()
+                
+            }
             
         }
 
         var size = 10;
+
+        
 
         for (let i = 0; i < 100; i++) {
 
@@ -51,10 +67,9 @@ window.onload = function () {
                 
             } else {
 
+                createCircle(size);
 
             }
-
-            size += 100;
             
         }
 
