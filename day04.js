@@ -10,70 +10,74 @@ window.onload = function () {
         context.strokeStyle = 'white';
 
         context.translate(width/2, height/2);
-        context.rotate((-15 * Math.PI) / 180);
+        // context.rotate((-15 * Math.PI) / 180);
 
 
-        function createSpiral(maxSize, totalLines, increment) {
-             context.save();
+        function createTree(brances, stems, rungs, branchLength) {
+
+            //starting branch
+
+            context.beginPath();
+            context.moveTo(0,-100);
+            context.lineTo(0, branchLength * 3);
+
+            let prevBranchX = 0;
+            let prevBranchY = 0;
+
+            context.stroke();
+
             
-            let prevX = maxSize,
 
-                prevY = maxSize,
+            while (rungs > 0) {
 
-                currentX, currentY,
-                nextX, nextY;
+                brancesStartX = prevBranchX;
+                brancesStartY = prevBranchY - (rungs * branchLength);
 
-            for (let i = 0; i < totalLines - increment; i++) {
-                context.beginPath();
+                for (let i = 1; i <= brances; i++) {
 
-                // context.strokeStyle = 'hsl(' + (i * 3) + ', 100%, 65%)';
+                    
+                    
+                    context.beginPath();
 
-                currentX = prevX - increment; 
-                currentY = prevY - increment; 
+                    for (let j = 0; j < stems; j++) {
 
-                context.moveTo(currentX,currentY);
+                        context.moveTo(brancesStartX, brancesStartY - branchLength);
+                        context.save();
+                        context.rotate(Math.PI / (j) - Math.PI);
 
+                        context.lineTo(brancesStartX * i, 0 + branchLength );
+                        context.stroke();
+                        context.restore();
 
-                //fibonaci ratio of rotation
-                context.rotate((currentX / prevX)/increment);
-                context.rotate(1);
+                        context.moveTo(brancesStartX, brancesStartY - branchLength);
+                        context.save();
+                        context.rotate(-(Math.PI / (j) - Math.PI));
 
-                //fibonaci squecence of line length
-                nextX = currentX - ((currentX / prevX) / .7);
-                nextY = currentY - ((currentY / prevY) * .6);
+                        context.lineTo(brancesStartX, 0 + branchLength );
+                        context.stroke();
+                        context.restore();
 
-                context.lineTo(nextX + (maxSize/increment),nextY + (maxSize/increment));
-                context.stroke();
+                        
+                    }
+                    
+                }
 
-                prevX = currentX;
-                prevY = currentY;
+                rungs--
 
             }
 
-            context.restore();
+
             
         }
 
-        let definitionOfRatio = 2;
+        createTree(6, 3, 100);
 
-        // createSpiral(333,100, 10)
         render()
 
         function render() {
-            size += 4;
+            size += 1;
             
-            context.save();
-            context.setTransform(1, 0, 0, 1, 0, 0);
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            context.restore();
-
-            definitionOfRatio += 0;
-
-            totalLines = size / definitionOfRatio - 10;
-
-            // createSpiral(100, .01);
-
-            createSpiral(300, totalLines, 10);
+            createTree(3, (size /10), 4, size);
 
             // context.rotate(.02);
 
