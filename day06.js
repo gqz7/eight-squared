@@ -5,37 +5,37 @@ window.onload = function () {
         context = canvas.getContext("2d"),
         width = canvas.width = this.innerWidth, //this refers to window
         height = canvas.height = this.innerHeight,
-        time = 0;
+        time = 0,
+        multFactor = 17;
 
         context.strokeStyle = 'white';
 
         context.translate(width/2, height/2);
-        context.rotate((-15 * Math.PI) / 180);
+        context.rotate((-160 * Math.PI) / 180);
 
 
         function createFibSpi(sizeLength) {
+            
 
             let prevSL = sizeLength/100,
-                curSL = sizeLength;
+                curSL = sizeLength/3;
             
-            for (let i = 0; i < 10; i++) {
                 context.beginPath();
-
-                
 
                 context.rotate(.001);
 
-                curSL = curSL - prevSL;
+                curSL = curSL + prevSL;
 
-                context.moveTo(curSL+4, curSL-4);
+                context.moveTo(curSL+10, curSL-4);
 
                 context.lineTo(curSL, curSL);
 
-                prevSL = curSL;
 
                 context.stroke()
+
                 
-            }
+                
+            context.strokeStyle = 'hsl(' + (sizeLength / 3) + ', 100%, 65%)';
         }
     
 
@@ -43,8 +43,27 @@ window.onload = function () {
 
         function render() {
             time += .2
-
+    
             createFibSpi(time)
+
+            for (let i = 1; i < multFactor; i++) {
+               createFibSpi(time * Math.pow(i, 1.01))
+                
+            }
+            
+
+            if (time > 160) {
+
+                context.save();
+                context.setTransform(1, 0, 0, 1, 0, 0);
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.restore();
+
+                multFactor++;
+
+                time = 0;
+                
+            }
 
 
             setTimeout( window.requestAnimationFrame, 0, (render));
