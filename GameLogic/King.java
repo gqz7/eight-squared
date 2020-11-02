@@ -3,8 +3,8 @@ package com.company;
 public class King extends Piece {
 
 
-    public King (BoardPlace startPos, boolean isWhite) {
-        super(startPos, isWhite);
+    public King (BoardPlace startPos) {
+        super(startPos);
     }
     @Override
     public Turn move(BoardPlace moving) {

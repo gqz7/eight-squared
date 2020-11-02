@@ -2,8 +2,8 @@ package com.company;
 
 public class Queen extends Piece {
 
-    public Queen (BoardPlace startPos, boolean isWhite) {
-        super(startPos, isWhite);
+    public Queen (BoardPlace startPos) {
+        super(startPos);
     }
 
     @Override

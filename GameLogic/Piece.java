@@ -5,10 +5,13 @@ public abstract class Piece implements Movable {
     public boolean isWhite;
     public BoardPlace position;
 
-    public Piece( BoardPlace startPosition, boolean isWhite) {
+    public Piece( BoardPlace startPosition) {
         position = startPosition;
         isInGame = true;
-        this.isWhite = isWhite;
+
+        if (startPosition.row < 3)
+            isWhite = true;
+        else isWhite = false;
     }
     @Override
     abstract public String toString();

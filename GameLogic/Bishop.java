@@ -2,8 +2,8 @@ package com.company;
 
 public class Bishop extends Piece {
 
-    public Bishop (BoardPlace startPos, boolean isWhite) {
-        super(startPos, isWhite);
+    public Bishop (BoardPlace startPos) {
+        super(startPos);
     }
 
     @Override

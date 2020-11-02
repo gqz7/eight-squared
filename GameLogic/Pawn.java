@@ -2,8 +2,8 @@ package com.company;
 
 public class Pawn extends Piece {
 
-    public Pawn (BoardPlace startPos, boolean isWhite) {
-        super(startPos, isWhite);
+    public Pawn (BoardPlace startPos) {
+        super(startPos);
     }
 
     @Override

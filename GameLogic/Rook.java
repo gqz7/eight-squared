@@ -2,8 +2,8 @@ package com.company;
 
 public class Rook extends Piece {
 
-    public Rook (BoardPlace startPos, boolean isWhite) {
-        super(startPos, isWhite);
+    public Rook (BoardPlace startPos) {
+        super(startPos);
     }
     @Override
     public Turn move(BoardPlace moving) {
