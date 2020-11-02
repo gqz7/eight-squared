@@ -5,6 +5,7 @@ public class BoardPlace {
     public int columnInt;
     public char columnChar;
     public String notation;
+    public Piece holding;
 
     public BoardPlace( int row, int columnInt) {
         this.row = row;
@@ -39,6 +40,8 @@ public class BoardPlace {
 
     @Override
     public String toString() {
-        return notation;
+        if (holding == null)
+            return "[]";
+        return holding.toString();
     }
 }
