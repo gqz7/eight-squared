@@ -7,8 +7,13 @@ public class Game {
 
     private Board gameBoard;
 
+    private int turn;
+    private boolean whitesTurn;
+
     public Game () {
 
+        turn = 0;
+        whitesTurn = true;
         player1 = new Player(true);
         player2 = new Player(false);
 
@@ -16,6 +21,20 @@ public class Game {
     }
 
     public void printCurrentGame () {
+        System.out.println("\n________________________\n");
+        System.out.println("TURN: " + turn + "\n");
         System.out.println(gameBoard);
+        System.out.println("________________________\n");
+    }
+
+    public void printPlayerPieces () {
+        System.out.println("\nPLAYERS PIECES\n");
+        System.out.println("\n________________________\n");
+        System.out.println("PLAYER ONE:\n");
+        System.out.println(player1);
+        System.out.println("\n________________________\n");
+        System.out.println("PLAYER TWO:\n");
+        System.out.println(player2);
+
     }
 }

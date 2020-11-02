@@ -6,6 +6,7 @@ public class Main {
 
         var chessGame = new Game();
 
+        chessGame.printPlayerPieces();
         chessGame.printCurrentGame();
 
     }
