@@ -18,6 +18,24 @@ public class Game {
         player2 = new Player(false);
 
         gameBoard = new Board(player1, player2);
+
+        gameStart();
+    }
+
+    private void gameStart() {
+        boolean gameEnded = false;
+        while (!gameEnded) {
+            System.out.println("It's your turn " + (whitesTurn ? "white" : "black") + "!");
+            Turn playersTurn;
+            if (whitesTurn)
+                playersTurn = player1.makeTurn();
+            else
+                playersTurn = player2.makeTurn();
+
+            gameBoard.takeTurn(playersTurn);
+
+            whitesTurn = !whitesTurn;
+        }
     }
 
     public void printCurrentGame () {

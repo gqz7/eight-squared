@@ -82,4 +82,8 @@ public class Board {
         }
         return currentGameBoard;
     }
+
+    public void takeTurn(Turn playersTurn) {
+
+    }
 }
