@@ -2,8 +2,10 @@ package com.company;
 
 public class Queen extends Piece {
 
+    private String name;
     public Queen (BoardPlace startPos) {
         super(startPos);
+        name = "Queen";
     }
 
     @Override
@@ -14,5 +16,10 @@ public class Queen extends Piece {
     @Override
     public String toString() {
         return (this.isWhite ? "W" : "B") + "Q";
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

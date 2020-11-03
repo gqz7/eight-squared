@@ -2,8 +2,11 @@ package com.company;
 
 public class Bishop extends Piece {
 
+    private String name;
     public Bishop (BoardPlace startPos) {
         super(startPos);
+        name = "Bishop";
+
     }
 
     @Override
@@ -14,5 +17,10 @@ public class Bishop extends Piece {
     @Override
     public Turn move(BoardPlace moving) {
         return new Turn(this, moving);
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }
