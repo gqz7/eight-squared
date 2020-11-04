@@ -28,9 +28,9 @@ public class Game {
             System.out.println("It's your turn " + (whitesTurn ? "white" : "black") + "!");
             Turn playersTurn;
             if (whitesTurn)
-                playersTurn = player1.makeTurn();
+                playersTurn = player1.makeTurn(gameBoard);
             else
-                playersTurn = player2.makeTurn();
+                playersTurn = player2.makeTurn(gameBoard);
 
             gameBoard.takeTurn(playersTurn);
 
