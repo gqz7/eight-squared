@@ -29,25 +29,35 @@ public class Player {
         return playersPieces;
     }
 
-    public Turn makeTurn() {
+    public Turn makeTurn( Board board) {
 
         Object[] filtered = Arrays.stream(pieces).filter( piece -> piece.isInGame).toArray();
         Piece[] playablePieces = new Piece[filtered.length];
+        boolean moveLockedIn = false;
 
         for (int i = 0; i < filtered.length; i++) {
             if (filtered[i] instanceof Piece) {
                 playablePieces[i] = (Piece) filtered[i];
             }
         }
-
         System.out.println("Select A Piece To Move...");
         for (int i = 0; i < playablePieces.length; i++) {
             Piece p = playablePieces[i];
             System.out.println(i+1 + ") " + p.getName() + ", " + p.position.notation);
         }
+        while (!moveLockedIn) {
 
-        int selectedPiece = CLI.numberIntQuestion("Enter a number", 1, playablePieces.length);
+            int pieceInt = selectPiece(playablePieces.length);
+            BoardPlace[] possibleMoves = playablePieces[pieceInt-1].getPossibleMoves( board );
+            System.out.println("Select A Move...");
+        }
+
+
 
         return new Turn( playablePieces[0], playablePieces[0].position);
+    }
+
+    public int selectPiece( int playable) {
+        return CLI.numberIntQuestion("\nSelect A Piece\nEnter a piece's corresponding number", 1, playable );
     }
 }
