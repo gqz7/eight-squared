@@ -34,7 +34,7 @@ public class Game {
 
             gameBoard.takeTurn(playersTurn);
 
-//            whitesTurn = !whitesTurn;
+            whitesTurn = !whitesTurn;
         }
     }
 

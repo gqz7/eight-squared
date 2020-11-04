@@ -39,12 +39,15 @@ public class Pawn extends Piece {
         BoardPlace piecePos = movingPiece.position;
 
         int tempRow = piecePos.row;
-        //int tempCol = piecePos.columnInt;
+        int tempCol = piecePos.columnInt;
 
-        BoardPlace oneSpaceForward = piecePos.getTranslatedSpace(0, 1);
-        BoardPlace twoSpaceForward = piecePos.getTranslatedSpace(0, 2);
-        BoardPlace diagonalRight = piecePos.getTranslatedSpace(1, 1);
-        BoardPlace diagonalLeft = piecePos.getTranslatedSpace(-1, 1);
+        BoardPlace oneSpaceForward = board.getSpace(tempRow, tempCol + (isWhite ? 1 : -1));
+
+        BoardPlace twoSpaceForward = board.getSpace(tempRow, tempCol + (isWhite ? 2 : -2));
+
+        BoardPlace diagonalRight = board.getSpace(tempRow + (isWhite ? 1 : -1), tempCol + (isWhite ? 1 : -1));
+
+        BoardPlace diagonalLeft = board.getSpace(tempRow + (isWhite ? -1 : 1), tempCol + (isWhite ? 1 : -1));
 
         if ( tempRow == 2 && isWhite || tempRow == 7 && !isWhite) {
             if ( oneSpaceForward.isEmpty() )

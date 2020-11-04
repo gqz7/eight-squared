@@ -107,4 +107,8 @@ public class Board {
         gameSpace1D[(newSpace.row-1)*8 + newSpace.columnInt-1] = newSpace;
     }
 
+    public BoardPlace getSpace (int rowInt, int colInt) {
+        return gameSpace2D[rowInt][colInt];
+    }
+
 }
