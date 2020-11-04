@@ -108,7 +108,9 @@ public class Board {
     }
 
     public BoardPlace getSpace (int rowInt, int colInt) {
-        return gameSpace2D[rowInt][colInt];
+        if ( rowInt < 1 || colInt < 1 || rowInt > 8 || colInt > 8 ) return null;
+//        System.out.println("Row: " + rowInt + " Col: " + colInt);
+        return gameSpace2D[rowInt-1][colInt-1];
     }
 
 }
