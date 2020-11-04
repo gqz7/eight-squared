@@ -8,12 +8,12 @@ public class Board {
     final static int totalRows = 8;
     final static int totalColumns = 8;
 
-    private BoardPlace[] gameSpace;
+    private BoardPlace[] gameSpace1D;
     private BoardPlace[][] gameSpace2D;
 
     public Board(Player player1, Player player2) {
         BoardPlace[][][] boardData = initializeBoard( player1, player2 );
-        gameSpace = boardData[0][0];
+        gameSpace1D = boardData[0][0];
         gameSpace2D = boardData[1];
 
     }
@@ -88,8 +88,9 @@ public class Board {
         BoardPlace movingSpaceHold = playersTurn.moveTo;
 
         //update data in the piece that is moving
-        movingPiece.position.holding = null;
-        movingPiece.position = movingSpaceHold;
+        BoardPlace oldSpace = movingPiece.position;
+        oldSpace.holding = null;
+        BoardPlace newSpace = movingPiece.position = movingSpaceHold;
 
         //update the space that the piece is moving to
         if (movingSpaceHold.holding != null) {
@@ -99,7 +100,11 @@ public class Board {
         movingSpaceHold.holding = movingPiece;
 
         //update the board
+        gameSpace2D[oldSpace.row-1][oldSpace.columnInt-1] = oldSpace;
+        gameSpace2D[newSpace.row-1][newSpace.columnInt-1] = newSpace;
 
+        gameSpace1D[(oldSpace.row-1)*8 + oldSpace.columnInt-1] = oldSpace;
+        gameSpace1D[(newSpace.row-1)*8 + newSpace.columnInt-1] = newSpace;
     }
 
 }
