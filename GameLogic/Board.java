@@ -74,13 +74,33 @@ public class Board {
         }
     }
 
-    @Override
-    public String toString() {
-        String currentGameBoard = "";
-        for (int i = 0; i < gameSpace2D.length; i++) {
-            currentGameBoard += (Arrays.toString(gameSpace2D[i])) + "\n";
+//    @Override
+//    public String toString() {
+//
+//        String currentGameBoard = "";
+//        for (int i = 0; i < gameSpace2D.length; i++) {
+//            currentGameBoard += i+1 + "| " + (Arrays.toString(gameSpace2D[i])) + "\n";
+//        }
+//        currentGameBoard += " | | A | B | C | D | E | F | G | H|";
+//        return currentGameBoard;
+//    }
+
+    public String displayBoard ( boolean isBlackMoving ) {
+
+        StringBuilder currentGameBoard = new StringBuilder();
+        int increaseBy = isBlackMoving ? -1 : 1;
+
+        for (
+              int i = isBlackMoving ? totalRows-1 : 0;
+              !isBlackMoving && i < gameSpace2D.length || isBlackMoving && i > -1;
+              i += increaseBy
+        ) {
+            currentGameBoard.append(i+1).append("| ").append(Arrays.toString(gameSpace2D[i])).append("|\n");
         }
-        return currentGameBoard;
+
+        currentGameBoard.append(" | | A | B | C | D | E | F | G | H |");
+
+        return currentGameBoard.toString();
     }
 
     public void takeTurn(Turn playersTurn) {

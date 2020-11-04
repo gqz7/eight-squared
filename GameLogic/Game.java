@@ -12,7 +12,7 @@ public class Game {
 
     public Game () {
 
-        turn = 0;
+        turn = 1;
         whitesTurn = true;
         player1 = new Player(true);
         player2 = new Player(false);
@@ -35,23 +35,23 @@ public class Game {
             gameBoard.takeTurn(playersTurn);
 
             whitesTurn = !whitesTurn;
+            turn++;
         }
     }
 
     public void printCurrentGame () {
-        System.out.println("\n________________________\n");
-        System.out.println("It's your turn " + (whitesTurn ? "white" : "black") + "!");
-        System.out.println("TURN: " + turn + "\n");
-        System.out.println(gameBoard);
-        System.out.println("________________________\n");
+        System.out.println("\n________________________________________________\n");
+        System.out.println("TURN: " + turn + "\t\tMOVING: " + (whitesTurn ? "WHITE" : "BLACK") +"\n");
+        System.out.println(gameBoard.displayBoard(whitesTurn));
+        System.out.println("________________________________________________\n");
     }
 
     public void printPlayerPieces () {
         System.out.println("\nPLAYERS PIECES\n");
-        System.out.println("\n________________________\n");
+        System.out.println("\n________________________________________________\n");
         System.out.println("PLAYER ONE:\n");
         System.out.println(player1);
-        System.out.println("\n________________________\n");
+        System.out.println("\n________________________________________________\n");
         System.out.println("PLAYER TWO:\n");
         System.out.println(player2);
 
