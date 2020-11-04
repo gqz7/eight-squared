@@ -18,4 +18,7 @@ public abstract class Piece implements Movable {
     abstract public String toString();
 
     abstract public String getName();
+
+    abstract public BoardPlace[] getPossibleMoves( Board board );
+
 }

@@ -11,6 +11,10 @@ public class Rook extends Piece {
         return new Turn(this, moving);
     }
 
+    @Override
+    public BoardPlace[] getPossibleMoves( Board board) {
+        return new BoardPlace[0];
+    }
 
     @Override
     public String toString() {

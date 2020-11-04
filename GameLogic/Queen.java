@@ -14,6 +14,11 @@ public class Queen extends Piece {
     }
 
     @Override
+    public BoardPlace[] getPossibleMoves( Board board) {
+        return new BoardPlace[0];
+    }
+
+    @Override
     public String toString() {
         return (this.isWhite ? "W" : "B") + "Q";
     }
