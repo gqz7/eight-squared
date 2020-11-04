@@ -50,9 +50,9 @@ public class Board {
     }
 
     private Piece getSpacesPiece(BoardPlace startPos) {
-        if (startPos.row > 2 && startPos.row < 7 ) return null;
+        if (startPos.row >= 2 && startPos.row <= 7 ) return null;
 
-        if (startPos.row == 2 || startPos.row == 7 ) return new Pawn(startPos);
+//        if (startPos.row == 2 || startPos.row == 7 ) return new Pawn(startPos);
 
         switch (startPos.columnInt) {
             case 1:

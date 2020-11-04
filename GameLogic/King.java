@@ -1,5 +1,8 @@
 package com.company;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class King extends Piece {
 
 
@@ -15,8 +18,29 @@ public class King extends Piece {
     }
 
     @Override
-    public BoardPlace[] getPossibleMoves( Board board) {
-        return new BoardPlace[0];
+    public BoardPlace[] getPossibleMoves( Board board ) {
+
+        Piece movingPiece = this;
+
+        List<BoardPlace> movesList = new ArrayList<>();
+        boolean isWhite = movingPiece.isWhite;
+        BoardPlace piecePos = movingPiece.position;
+
+        int tempRow = piecePos.row;
+        int tempCol = piecePos.columnInt;
+
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if ( !(i == 0 && j == 0) ){
+                    BoardPlace possibleMove = board.getSpace(tempRow + i, tempCol + j );
+                    if (possibleMove != null && (possibleMove.isEmpty() || possibleMove.hasEnemy(isWhite)))
+                        movesList.add(possibleMove);
+
+                }
+            }
+        }
+
+        return movesList.toArray( new BoardPlace[0] );
     }
 
     @Override

@@ -15,7 +15,7 @@ public class Knight extends Piece {
     }
 
     @Override
-    public BoardPlace[] getPossibleMoves( Board board) {
+    public BoardPlace[] getPossibleMoves( Board board ) {
         return new BoardPlace[0];
     }
 

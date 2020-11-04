@@ -31,7 +31,11 @@ public class Player {
 
     public Turn makeTurn( Board board) {
 
-        Object[] filtered = Arrays.stream(pieces).filter( piece -> piece.isInGame).toArray();
+        Object[] filtered = Arrays.stream(pieces).filter( piece -> {
+            if ( piece == null) return false;
+            return piece.isInGame;
+        }).toArray();
+
         Piece[] playablePieces = new Piece[filtered.length];
 
         for (int i = 0; i < filtered.length; i++) {

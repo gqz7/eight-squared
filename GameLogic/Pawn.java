@@ -69,6 +69,6 @@ public class Pawn extends Piece {
         ) {
             movesList.add(diagonalRight);
         }
-        return movesList.toArray( new BoardPlace[0]); //movesList.size()
+        return movesList.toArray( new BoardPlace[0]);
     }
 }

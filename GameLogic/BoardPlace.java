@@ -49,7 +49,8 @@ public class BoardPlace {
 
     public boolean hasEnemy ( boolean isWhite ){
         if (holding == null) return false;
-        return !isWhite || !holding.isWhite;
+        boolean isEnemySpace = (isWhite && !holding.isWhite) || (!isWhite && holding.isWhite);
+        return isEnemySpace;
     }
 
     public boolean isEmpty () {
