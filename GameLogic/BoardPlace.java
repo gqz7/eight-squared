@@ -38,6 +38,24 @@ public class BoardPlace {
         }
     }
 
+    public BoardPlace getTranslatedSpace ( int x, int y ) {
+        int translatedCol = columnInt+x;
+        int translatedRow = row+y;
+        if ( translatedCol < 8 && translatedCol > 1 || translatedRow < 8 && translatedRow > 1) {
+            return new BoardPlace(translatedRow, translatedCol);
+        }
+        return null;
+    }
+
+    public boolean hasEnemy ( boolean isWhite ){
+        if (holding == null) return false;
+        return !isWhite || !holding.isWhite;
+    }
+
+    public boolean isEmpty () {
+        return holding == null;
+    }
+
     @Override
     public String toString() {
         if (holding == null)
