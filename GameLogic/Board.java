@@ -84,6 +84,21 @@ public class Board {
     }
 
     public void takeTurn(Turn playersTurn) {
+        Piece movingPiece = playersTurn.movingPiece;
+        BoardPlace movingSpaceHold = playersTurn.moveTo;
+
+        //update data in the piece that is moving
+        movingPiece.position.holding = null;
+        movingPiece.position = movingSpaceHold;
+
+        //update the space that the piece is moving to
+        if (movingSpaceHold.holding != null) {
+            movingSpaceHold.holding.isInGame = false;
+            movingSpaceHold.holding.position = null;
+        }
+        movingSpaceHold.holding = movingPiece;
+
+        //update the board
 
     }
 

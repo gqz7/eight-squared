@@ -25,7 +25,7 @@ public class Game {
     private void gameStart() {
         boolean gameEnded = false;
         while (!gameEnded) {
-            System.out.println("It's your turn " + (whitesTurn ? "white" : "black") + "!");
+            printCurrentGame();
             Turn playersTurn;
             if (whitesTurn)
                 playersTurn = player1.makeTurn(gameBoard);
@@ -34,12 +34,13 @@ public class Game {
 
             gameBoard.takeTurn(playersTurn);
 
-            whitesTurn = !whitesTurn;
+//            whitesTurn = !whitesTurn;
         }
     }
 
     public void printCurrentGame () {
         System.out.println("\n________________________\n");
+        System.out.println("It's your turn " + (whitesTurn ? "white" : "black") + "!");
         System.out.println("TURN: " + turn + "\n");
         System.out.println(gameBoard);
         System.out.println("________________________\n");
