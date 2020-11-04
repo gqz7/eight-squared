@@ -33,7 +33,6 @@ public class Player {
 
         Object[] filtered = Arrays.stream(pieces).filter( piece -> piece.isInGame).toArray();
         Piece[] playablePieces = new Piece[filtered.length];
-        boolean moveLockedIn = false;
 
         for (int i = 0; i < filtered.length; i++) {
             if (filtered[i] instanceof Piece) {
@@ -45,19 +44,28 @@ public class Player {
             Piece p = playablePieces[i];
             System.out.println(i+1 + ") " + p.getName() + ", " + p.position.notation);
         }
-        while (!moveLockedIn) {
-
+        while (true) {
             int pieceInt = selectPiece(playablePieces.length);
             BoardPlace[] possibleMoves = playablePieces[pieceInt-1].getPossibleMoves( board );
-            System.out.println("Select A Move...");
+            int moveInt = selectMove(possibleMoves);
+            if (moveInt != possibleMoves.length+1) {
+                return new Turn(playablePieces[pieceInt-1], possibleMoves[moveInt-1]);
+            }
         }
-
-
-
-        return new Turn( playablePieces[0], playablePieces[0].position);
     }
 
     public int selectPiece( int playable) {
         return CLI.numberIntQuestion("\nSelect A Piece\nEnter a piece's corresponding number", 1, playable );
+    }
+
+    public int selectMove( BoardPlace[] possibleMoves) {
+        System.out.println("Select A Move...");
+        for (int i = 0; i < possibleMoves.length; i++) {
+            BoardPlace move = possibleMoves[i];
+            System.out.println(i+1 + ") " + move.notation);
+        }
+        System.out.println(possibleMoves.length+1 + ") Select Another Piece To Move");
+
+        return CLI.numberIntQuestion("\nSelect A Move\nEnter a move's corresponding number", 1, possibleMoves.length+1 );
     }
 }
