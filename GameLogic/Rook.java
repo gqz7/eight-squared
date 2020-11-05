@@ -32,7 +32,7 @@ public class Rook extends Piece {
                     int blocksMoved = 1;
                     while  (!hitBlock) {
                         BoardPlace possibleMove = board.getSpace(tempRow + blocksMoved * i, tempCol + blocksMoved * j );
-                        if (possibleMove != null && (possibleMove.isEmpty() )) {
+                        if (possibleMove != null && possibleMove.isEmpty() ) {
                             movesList.add(possibleMove);
                             blocksMoved++;
                         } else if (possibleMove != null && possibleMove.hasEnemy(isWhite)) {
