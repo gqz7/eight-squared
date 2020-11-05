@@ -50,9 +50,9 @@ public class Board {
     }
 
     private Piece getSpacesPiece(BoardPlace startPos) {
-        if (startPos.row >= 2 && startPos.row <= 7 ) return null;
+        if (startPos.row > 2 && startPos.row < 7 ) return null;
 
-//        if (startPos.row == 2 || startPos.row == 7 ) return new Pawn(startPos);
+        if (startPos.row == 2 || startPos.row == 7 ) return new Pawn(startPos);
 
         switch (startPos.columnInt) {
             case 1:
@@ -98,7 +98,7 @@ public class Board {
             currentGameBoard.append(i+1).append("| ").append(Arrays.toString(gameSpace2D[i])).append("|\n");
         }
 
-        currentGameBoard.append(" | | A | B | C | D | E | F | G | H |");
+        currentGameBoard.append("   | A | B | C | D | E | F | G | H |");
 
         return currentGameBoard.toString();
     }
