@@ -51,10 +51,12 @@ public class Player {
         while (true) {
             int pieceInt = selectPiece(playablePieces.length);
             BoardPlace[] possibleMoves = playablePieces[pieceInt-1].getPossibleMoves( board );
-            int moveInt = selectMove(possibleMoves);
-            if (moveInt != possibleMoves.length+1) {
-                return new Turn(playablePieces[pieceInt-1], possibleMoves[moveInt-1]);
+            if (possibleMoves.length > 0) {
+                int moveInt = selectMove(possibleMoves);
+                if (moveInt != possibleMoves.length+1)
+                    return new Turn(playablePieces[pieceInt-1], possibleMoves[moveInt-1]);
             }
+            System.out.println("\nThat piece does not have any possible moves, please select another piece.");
         }
     }
 
