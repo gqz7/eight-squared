@@ -1,4 +1,8 @@
-package com.company;
+package com.company.ChessLogic.Enviorment;
+
+import com.company.ChessLogic.Control.Player;
+import com.company.ChessLogic.Control.Turn;
+import com.company.ChessLogic.Pieces.*;
 
 import java.util.Arrays;
 
@@ -74,16 +78,6 @@ public class Board {
         }
     }
 
-//    @Override
-//    public String toString() {
-//
-//        String currentGameBoard = "";
-//        for (int i = 0; i < gameSpace2D.length; i++) {
-//            currentGameBoard += i+1 + "| " + (Arrays.toString(gameSpace2D[i])) + "\n";
-//        }
-//        currentGameBoard += " | | A | B | C | D | E | F | G | H|";
-//        return currentGameBoard;
-//    }
 
     public String displayBoard ( boolean isBlackMoving ) {
 
@@ -105,19 +99,19 @@ public class Board {
 
     public void takeTurn(Turn playersTurn) {
         Piece movingPiece = playersTurn.movingPiece;
-        BoardPlace movingSpaceHold = playersTurn.moveTo;
+        BoardPlace spaceMovingTo = playersTurn.moveTo;
 
         //update data in the piece that is moving
         BoardPlace oldSpace = movingPiece.position;
         oldSpace.holding = null;
-        BoardPlace newSpace = movingPiece.position = movingSpaceHold;
+        BoardPlace newSpace = movingPiece.position = spaceMovingTo;
 
         //update the space that the piece is moving to
-        if (movingSpaceHold.holding != null) {
-            movingSpaceHold.holding.isInGame = false;
-            movingSpaceHold.holding.position = null;
+        if (spaceMovingTo.holding != null) {
+            spaceMovingTo.holding.isInGame = false;
+            spaceMovingTo.holding.position = null;
         }
-        movingSpaceHold.holding = movingPiece;
+        spaceMovingTo.holding = movingPiece;
 
         //update the board
         gameSpace2D[oldSpace.row-1][oldSpace.columnInt-1] = oldSpace;

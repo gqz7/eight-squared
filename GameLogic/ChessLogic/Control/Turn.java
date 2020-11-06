@@ -1,4 +1,7 @@
-package com.company;
+package com.company.ChessLogic.Control;
+
+import com.company.ChessLogic.Enviorment.BoardPlace;
+import com.company.ChessLogic.Pieces.Piece;
 
 public class Turn {
 

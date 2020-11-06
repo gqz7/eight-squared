@@ -1,4 +1,6 @@
-package com.company;
+package com.company.ChessLogic.Enviorment;
+
+import com.company.ChessLogic.Pieces.Piece;
 
 public class BoardPlace {
     public int row;

@@ -1,4 +1,8 @@
-package com.company;
+package com.company.ChessLogic.Pieces;
+
+import com.company.ChessLogic.Enviorment.Board;
+import com.company.ChessLogic.Enviorment.BoardPlace;
+import com.company.ChessLogic.Control.Turn;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,8 @@
-package com.company;
+package com.company.ChessLogic;
+
+import com.company.ChessLogic.Enviorment.Board;
+import com.company.ChessLogic.Control.Player;
+import com.company.ChessLogic.Control.Turn;
 
 public class Game {
 

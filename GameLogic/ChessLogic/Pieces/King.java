@@ -1,23 +1,29 @@
-package com.company;
+package com.company.ChessLogic.Pieces;
+
+import com.company.ChessLogic.Enviorment.Board;
+import com.company.ChessLogic.Enviorment.BoardPlace;
+import com.company.ChessLogic.Control.Turn;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Queen extends Piece {
+public class King extends Piece {
+
 
     private String name;
-    public Queen (BoardPlace startPos) {
+    public King (BoardPlace startPos) {
         super(startPos);
-        name = "Queen";
-    }
+        name = "King";
 
+    }
     @Override
     public Turn move(BoardPlace moving) {
         return new Turn(this, moving);
     }
 
     @Override
-    public BoardPlace[] getPossibleMoves( Board board) {
+    public BoardPlace[] getPossibleMoves( Board board ) {
+
         Piece movingPiece = this;
 
         List<BoardPlace> movesList = new ArrayList<>();
@@ -29,17 +35,11 @@ public class Queen extends Piece {
 
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                boolean hitBlock = false;
-                int blocksMoved = 1;
-                while  (!hitBlock) {
-                    BoardPlace possibleMove = board.getSpace(tempRow + blocksMoved * i, tempCol + blocksMoved * j );
-                    if (possibleMove != null && possibleMove.isEmpty() ) {
+                if ( !(i == 0 && j == 0) ){
+                    BoardPlace possibleMove = board.getSpace(tempRow + i, tempCol + j );
+                    if (possibleMove != null && (possibleMove.isEmpty() || possibleMove.hasEnemy(isWhite)))
                         movesList.add(possibleMove);
-                        blocksMoved++;
-                    } else if (possibleMove != null && possibleMove.hasEnemy(isWhite)) {
-                        movesList.add(possibleMove);
-                        hitBlock = true;
-                    } else hitBlock = true;
+
                 }
             }
         }
@@ -49,7 +49,7 @@ public class Queen extends Piece {
 
     @Override
     public String toString() {
-        return (this.isWhite ? "W" : "B") + "Q";
+        return (this.isWhite ? "W" : "B") + "K";
     }
 
     @Override

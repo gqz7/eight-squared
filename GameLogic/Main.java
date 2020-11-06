@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.ChessLogic.Game;
+
 public class Main {
 
     public static void main(String[] args) {
