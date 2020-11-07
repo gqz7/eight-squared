@@ -8,7 +8,7 @@
   //tracker for how many frames have elapsed
   int frames = 0;
 
-  int boardSz = 1000; //size of board width/height
+  int boardSz = 800; //size of board width/height
   
   float seed = 3.14;
 
@@ -43,18 +43,27 @@ public void drawBoard() {
 
     boolean isWhite = true;
     
+    textSize(boardSz/16);
+    
     fill(0);
     pushMatrix();
     
-    translate(-boardSz/2, -boardSz/2);
+    translate(-boardSz/2 -boardSz/8 , -boardSz/2);
     
     for (int i = 0; i < 8; ++i) {
       pushMatrix();
-      for (int j = 0; j < 8; ++j) {
-        if (!isWhite)
-          rect(0,0, boardSz/8, boardSz/8);
+      for (int j = 0; j < 9; ++j) {
+        if(j == 0) {
+          text(i+1, boardSz/18, boardSz/12); 
+          
+        } else {
+          if (!isWhite)
+            rect(0,0, boardSz/8, boardSz/8);
+            
+          isWhite = !isWhite;       
+        }
         translate(boardSz/8, 0);
-        isWhite = !isWhite;
+        
       }
       popMatrix();
       translate(0, boardSz/8);
