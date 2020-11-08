@@ -41,7 +41,8 @@ public void drawBoard() {
     fill(255);
     rect(-boardSz/2, -boardSz/2, boardSz, boardSz);
 
-    boolean isWhite = true;
+    boolean isBlack = true;
+    boolean startsBlack = isBlack;
     
     textSize(boardSz/16);
     
@@ -50,24 +51,51 @@ public void drawBoard() {
     
     translate(-boardSz/2 -boardSz/8 , -boardSz/2);
     
-    for (int i = 0; i < 8; ++i) {
+    for (int i = 0; i < 9; ++i) {
       pushMatrix();
       for (int j = 0; j < 9; ++j) {
-        if(j == 0) {
-          text(i+1, boardSz/18, boardSz/12); 
+        if(j == 0 && i != 8) {
+          String numStr = startsBlack ? i+1+"" : 8-i+"";
+          text( numStr , boardSz/18, boardSz/12); 
           
-        } else {
-          if (!isWhite)
+        } else if ( i >= 0 && i < 8 ) {
+          if (isBlack)
             rect(0,0, boardSz/8, boardSz/8);
             
-          isWhite = !isWhite;       
+          isBlack = !isBlack;       
+        } else if ( j != 0 ) {
+          String letterStr = mapNumToChessLetter(j);
+          text( letterStr, boardSz/20, boardSz/12 );
         }
         translate(boardSz/8, 0);
-        
       }
       popMatrix();
       translate(0, boardSz/8);
-      isWhite = !isWhite;
+      isBlack = !isBlack;
     }
     popMatrix();
+}
+
+public String mapNumToChessLetter ( int number ) {
+    //number;
+    switch (number) {
+       case 1: 
+         return "A";
+       case 2: 
+         return "B";
+       case 3: 
+         return "C";
+       case 4: 
+         return "D";
+       case 5: 
+         return "E";
+       case 6: 
+         return "F";
+       case 7: 
+         return "G";
+       case 8: 
+         return "H";
+       default:
+         return "Z";
+    }
 }
