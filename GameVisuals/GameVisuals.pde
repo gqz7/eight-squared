@@ -1,6 +1,6 @@
 
 //GLOBAL VARS
-  //Noise algorithm that produces values used in this animation, not made by me
+
 
   //width and height of canvas
   int WIDTH = 1920;//3840; //1920
@@ -10,8 +10,6 @@
 
   int boardSz = 800; //size of board width/height
   
-  float seed = 3.14;
-
 void setup() {
   //set canvas size
   size(1920,1080); //h: 2160
@@ -24,7 +22,6 @@ void setup() {
 
 //loop function that runs on a loop 
 void draw() {
-  seed+=.007;
   frames++;
   //clear(); // reset screen
   background(100); // reset screen
