@@ -7,6 +7,8 @@
   int HEIGHT = 1080;//2160; //1080
   //tracker for how many frames have elapsed
   int frames = 0;
+  
+  
 
   int boardSz = 800; //size of board width/height
   
