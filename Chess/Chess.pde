@@ -12,6 +12,10 @@
 
   int boardSz = 800; //size of board width/height
   
+  int spaceSz = boardSz / 8 ;
+  
+  int[][][] spacePos = new int[8][8][2];
+  
 void setup() {
   //set canvas size
   size(1920,1080); //h: 2160
@@ -19,7 +23,7 @@ void setup() {
   //create instance of the simplex noise class
   //background(255); // reset screen
   noStroke();
-  noLoop(); //uncomment to only render one frame
+  //noLoop(); //uncomment to only render one frame
 
   //draw();
   gameLogic = new Game();
@@ -27,7 +31,7 @@ void setup() {
 }
 
 //loop function that runs on a loop 
-void redraw(boolean isBlackPlaying) {
+void draw(boolean isBlackPlaying) {
   frames++;
   //clear(); // reset screen
   background(100); // reset screen
@@ -51,7 +55,7 @@ public void drawBoard( boolean isBlack) {
     fill(0);
     pushMatrix();
     
-    translate(-boardSz/2 -boardSz/8 , -boardSz/2);
+    translate(-boardSz/2 -spaceSz , -boardSz/2);
     for (int i = 0; i < 9;++i) {
       pushMatrix();
       for (int j = 0; j < 9; ++j) {
@@ -61,7 +65,7 @@ public void drawBoard( boolean isBlack) {
           
         } else if ( i >= 0 && i < 8 ) {
           if (isBlack)
-            rect(0,0, boardSz/8, boardSz/8);
+            rect(0,0, spaceSz, spaceSz);
             
           BoardPlace renderingSpace;
           
@@ -82,10 +86,10 @@ public void drawBoard( boolean isBlack) {
           String letterStr = mapNumToChessLetter(j);
           text( letterStr, boardSz/20, boardSz/12 );
         }
-        translate(boardSz/8, 0);
+        translate(spaceSz, 0);
       }
       popMatrix();
-      translate(0, boardSz/8);
+      translate(0, spaceSz);
       isBlack = !isBlack;
     }
     popMatrix();
@@ -122,4 +126,27 @@ public String mapNumToChessLetter ( int number ) {
        default:
          return "Z";
     }
+}
+
+public BoardPlace highlightSpace() {
+  
+  for ( int i = 0; i < 9; ++i ) {
+  
+      for ( int j = 0; j < 9; ++j ) {
+        
+          int x = spacePos[i][j][0];
+          int y = spacePos[i][j][1];
+          BoardPlace space = gameLogic.gameBoard.gameSpace2D[i][j];
+          
+          if (mouseX > x && mouseX < x+spaceSz && mouseY > y && mouseY < y+spaceSz) {
+            
+             print(space.toString());
+             return space; 
+             
+          } else print("1");
+      
+      }
+    
+  }
+  return null; 
 }
