@@ -25,29 +25,26 @@ public class Game {
     }
 
     private void gameStart() {
-        boolean gameEnded = false;
+        
+        //boolean gameEnded = false;
+        turn = 1;
+        whitesTurn = true;
+        printCurrentGame();
+        
+    }
+
+    private void gameAdvance( ChessTurn playersTurn ) {
+        gameBoard.takeTurn(playersTurn);
+
+        whitesTurn = !whitesTurn;
+        turn++;
+        playerChanged = true;
+        selectedPiece = null;
+        hoveredSpace = null;
         
         printCurrentGame();
-        draw();
-        //while (!gameEnded) {
-          
-        //    printCurrentGame();
-        //    ChessTurn playersTurn;
-        //    if (whitesTurn)
-        //        playersTurn = player1.makeTurn(gameBoard);
-        //    else
-        //        playersTurn = player2.makeTurn(gameBoard);
-
-        //    gameBoard.takeTurn(playersTurn);
-
-        //    whitesTurn = !whitesTurn;
-        //    turn++;
-              //playerChanged = true;
-              //selectedPiece = null;
-              //hoveredSpace = null;
-        //}
-        
-        
+        //if (gameEnded = true) 
+        //  gameStart()
     }
 
     public void printCurrentGame () {

@@ -56,8 +56,8 @@ public class Pawn extends Piece {
         if ( oneSpaceForward != null && oneSpaceForward.isEmpty() )
             movesList.add( oneSpaceForward );
         if ( tempRow == 2 && isWhite || tempRow == 7 && !isWhite) {
-            if (  twoSpaceForward != null && twoSpaceForward.isEmpty() )
-                movesList.add( twoSpaceForward );
+            if (  twoSpaceForward != null && twoSpaceForward.isEmpty() && oneSpaceForward.isEmpty() ) 
+              movesList.add( twoSpaceForward );
         }
         if (
                 diagonalLeft != null

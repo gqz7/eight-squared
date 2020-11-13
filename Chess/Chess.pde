@@ -7,6 +7,8 @@
   Game gameLogic; //where all the game data is stored
   
   BoardPlace hoveredSpace;
+
+  BoardPlace[] possibleMoves;
   
   Piece selectedPiece;
 
@@ -53,7 +55,7 @@ void draw() {
 
 public void drawBoard( boolean isBlack) {
 
-    BoardPlace[] possibleMoves = 
+    possibleMoves = 
       selectedPiece == null 
       ? new BoardPlace[0] 
       : selectedPiece.getPossibleMoves(gameLogic.gameBoard);
@@ -192,12 +194,23 @@ public void highlightSpace() {
 }
 
 public void mousePressed() { 
-  
-    if ( 
+
+    if ( //check if the mouse is in the play area
+      ( mouseX > width/2 + boardSz/2 && mouseX < width/2 - boardSz/2 )
+      || ( mouseY > height/2 + boardSz/2 && mouseY < height/2 - boardSz/2 )
+    ) return;
+
+    if ( Arrays.asList(possibleMoves).contains(hoveredSpace) ) {
+        println( selectedPiece.getName() + " to " + hoveredSpace.notation);
+
+        ChessTurn playerMove = new ChessTurn(selectedPiece, hoveredSpace);
+        gameLogic.gameAdvance(playerMove);
+    } 
+    //check to make sure the space the player is selection is not empty, 
+    //hoveredSpace will be null when the game starts and right after a move before the board has been hovered
+    if (
       hoveredSpace == null 
       || hoveredSpace.holding == null 
-      || ( mouseX > width/2 + boardSz/2 && mouseX < width/2 - boardSz/2 )
-      || ( mouseY > height/2 + boardSz/2 && mouseY < height/2 - boardSz/2 )
     ) return;
     
     Piece hoverP = hoveredSpace.holding;
@@ -205,10 +218,10 @@ public void mousePressed() {
     boolean isPlayersPiece = ( hoverP.isWhite && gameLogic.whitesTurn ) || ( !hoverP.isWhite && !gameLogic.whitesTurn );
     
     if (isPlayersPiece) {
-      println(hoveredSpace.holding.toString() + ": " + hoveredSpace.holding.position.notation);
+      //println(hoveredSpace.holding.toString() + ": " + hoveredSpace.holding.position.notation);
       selectedPiece = hoveredSpace.holding;
     } else {
-      println("That's not yours");
+      //println("That's not yours");
     }  
 };
 
