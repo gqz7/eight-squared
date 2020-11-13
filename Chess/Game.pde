@@ -43,6 +43,8 @@ public class Game {
         //    whitesTurn = !whitesTurn;
         //    turn++;
               //playerChanged = true;
+              //selectedPiece = null;
+              //hoveredSpace = null;
         //}
         
         

@@ -9,6 +9,10 @@
   int frames = 0;
   
   Game gameLogic; //where all the game data is stored
+  
+  BoardPlace hoveredSpace;
+  
+  Piece selectedPiece;
 
   int boardSz = 800; //size of board width/height
   
@@ -19,7 +23,7 @@
   boolean playerChanged = true;
   
   color whiteColor = color(255, 247, 227);
-  color blackColor = color(61, 54, 39);
+  color blackColor = color(46, 39, 24);
 void setup() {
   //set canvas size
   size(1920,1080); //h: 2160
@@ -39,6 +43,7 @@ void draw() {
   //println(mouseX + ", " + mouseY);
   frames++;
   //println(frames);
+  //println(hoveredSpace);
   //clear(); // reset screen
   background(100); // reset screen
 
@@ -51,17 +56,17 @@ void draw() {
 }
 
 public void drawBoard( boolean isBlack) {
+
     
+    boolean startsBlack = isBlack;
+
     fill(whiteColor);
     strokeWeight(1);
     stroke(255);
     rect(-boardSz/2, -boardSz/2, boardSz, boardSz);
-
-    boolean startsBlack = isBlack;
-    
     textSize(boardSz/16);
-
     fill(blackColor);
+
     pushMatrix();
     
     translate(-boardSz/2 -spaceSz , -boardSz/2);
@@ -97,6 +102,13 @@ public void drawBoard( boolean isBlack) {
               renderPiece(renderingSpace.holding);
               fill(blackColor);
           } 
+          
+          if (
+              selectedPiece != null 
+              && renderingSpace.holding == selectedPiece
+          ) {
+            renderHighlight( 0, 0, (float) spaceSz,  (float) spaceSz);
+          }
             
           isBlack = !isBlack;       
         } else if ( j != 0 ) {
@@ -145,6 +157,77 @@ public void renderPiece (Piece renderingPiece) {
     text(renderingPiece.toString(), boardSz/75, boardSz/12);
 }
 
+
+public void highlightSpace() {
+  
+    for ( int i = 0; i < 8; ++i ) {
+    
+        for ( int j = 0; j < 8; ++j ) {
+          
+            int x = spacePos[i][j][0];
+            int y = spacePos[i][j][1];
+            BoardPlace space;
+            
+            if (!gameLogic.whitesTurn) 
+            space = gameLogic.gameBoard.gameSpace2D[i][j];
+            else
+            space = gameLogic.gameBoard.gameSpace2D[7-i][j];
+            
+            if (mouseX > x && mouseX < x+spaceSz && mouseY > y && mouseY < y+spaceSz) {
+              
+              hoveredSpace = space;
+              
+              renderHighlight(
+                x-boardSz-spaceSz*1.6, 
+                y-boardSz+spaceSz*2.6, 
+                (float) spaceSz, (float) spaceSz
+              );
+              
+              return; 
+            } 
+        }
+    }
+}
+
+public void mousePressed() { 
+  
+    if ( 
+      hoveredSpace == null 
+      || hoveredSpace.holding == null 
+      || ( mouseX > width/2 + boardSz/2 && mouseX < width/2 - boardSz/2 )
+      || ( mouseY > height/2 + boardSz/2 && mouseY < height/2 - boardSz/2 )
+    ) return;
+    
+    Piece hoverP = hoveredSpace.holding;
+    
+    boolean isPlayersPiece = ( hoverP.isWhite && gameLogic.whitesTurn ) || ( !hoverP.isWhite && !gameLogic.whitesTurn );
+    
+    if (isPlayersPiece) {
+      println(hoveredSpace.holding.toString() + ": " + hoveredSpace.holding.position.notation);
+      selectedPiece = hoveredSpace.holding;
+    } else {
+      println("That's not yours");
+    }  
+};
+
+public void renderHighlight (float transX, float transY, float rectWidth, float rectHeight) {
+    
+    color highlightColor = gameLogic.whitesTurn ? color(186, 125, 180) : color(125, 182, 186); //light-tan: 255, 237, 194
+    
+    noFill();
+    stroke(highlightColor); 
+    strokeWeight(10);
+    
+    rect(
+      transX, 
+      transY, 
+      rectWidth, 
+      rectHeight
+    );
+    noStroke();
+}
+
+
 public String mapNumToChessLetter ( int number ) {
     //number;
     switch (number) {
@@ -167,35 +250,4 @@ public String mapNumToChessLetter ( int number ) {
        default:
          return "Z";
     }
-}
-
-public void highlightSpace() {
-  
-  for ( int i = 0; i < 8; ++i ) {
-  
-      for ( int j = 0; j < 8; ++j ) {
-        
-          int x = spacePos[i][j][0];
-          int y = spacePos[i][j][1];
-          //BoardPlace space = gameLogic.gameBoard.gameSpace2D[i][j];
-          
-          if (mouseX > x && mouseX < x+spaceSz && mouseY > y && mouseY < y+spaceSz) {
-            
-             //println(space.toString());
-             //println(x + ", " + y);
-             noFill();
-             stroke(255, 237, 194);
-             strokeWeight(10);
-             
-             rect(
-               x-boardSz-spaceSz*1.6, 
-               y-boardSz+spaceSz*2.6, 
-               spaceSz, spaceSz
-             );
-             
-          } 
-      
-      }
-    
-  }
-}
+} 
