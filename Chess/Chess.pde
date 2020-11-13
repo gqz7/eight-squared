@@ -1,10 +1,6 @@
 
 //GLOBAL VARS
 
-
-  //width and height of canvas
-  int WIDTH = 1920;//3840; //1920
-  int HEIGHT = 1080;//2160; //1080
   //tracker for how many frames have elapsed
   int frames = 0;
   
@@ -14,7 +10,7 @@
   
   Piece selectedPiece;
 
-  int boardSz = 800; //size of board width/height
+  int boardSz = 1200; //size of board width/height
   
   int spaceSz = boardSz / 8 ;
   
@@ -26,7 +22,7 @@
   color blackColor = color(46, 39, 24);
 void setup() {
   //set canvas size
-  size(1920,1080); //h: 2160
+  size(1920,2160); //w: 3840 - 1920 h: 2160 - 1080
   
   //create instance of the simplex noise class
   //background(255); // reset screen
@@ -57,6 +53,13 @@ void draw() {
 
 public void drawBoard( boolean isBlack) {
 
+    BoardPlace[] possibleMoves = 
+      selectedPiece == null 
+      ? new BoardPlace[0] 
+      : selectedPiece.getPossibleMoves(gameLogic.gameBoard);
+
+    //for ( BoardPlace p : possibleMoves ) print(p.notation + ", ");
+    //println();
     
     boolean startsBlack = isBlack;
 
@@ -103,12 +106,12 @@ public void drawBoard( boolean isBlack) {
               fill(blackColor);
           } 
           
-          if (
-              selectedPiece != null 
-              && renderingSpace.holding == selectedPiece
-          ) {
-            renderHighlight( 0, 0, (float) spaceSz,  (float) spaceSz);
-          }
+          if ( selectedPiece != null && renderingSpace.holding == selectedPiece ) 
+              renderHighlight( 0, 0, (float) spaceSz,  (float) spaceSz);
+          
+          
+          if (Arrays.asList(possibleMoves).contains(renderingSpace))
+              renderPossibleMove( spaceSz/10, spaceSz/10, (float) spaceSz-spaceSz/5,  (float) spaceSz-spaceSz/5); 
             
           isBlack = !isBlack;       
         } else if ( j != 0 ) {
@@ -138,7 +141,6 @@ public void drawBoard( boolean isBlack) {
     popMatrix();
     
     if (!playerChanged) {
-    
       highlightSpace();
       
     }
@@ -178,8 +180,8 @@ public void highlightSpace() {
               hoveredSpace = space;
               
               renderHighlight(
-                x-boardSz-spaceSz*1.6, 
-                y-boardSz+spaceSz*2.6, 
+                x-width/2, 
+                y-height/2, 
                 (float) spaceSz, (float) spaceSz
               );
               
@@ -217,6 +219,21 @@ public void renderHighlight (float transX, float transY, float rectWidth, float 
     noFill();
     stroke(highlightColor); 
     strokeWeight(10);
+    
+    rect(
+      transX, 
+      transY, 
+      rectWidth, 
+      rectHeight
+    );
+    noStroke();
+}
+
+public void renderPossibleMove (float transX, float transY, float rectWidth, float rectHeight) {
+    
+    color spaceColor = color(0, 200, 100);//gameLogic.whitesTurn ? color(186, 125, 180) : color(125, 182, 186); //light-tan: 255, 237, 194
+    
+    fill(spaceColor); 
     
     rect(
       transX, 
