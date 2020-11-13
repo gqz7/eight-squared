@@ -16,6 +16,10 @@
   
   int[][][] spacePos = new int[8][8][2];
   
+  boolean playerChanged = true;
+  
+  color whiteColor = color(255, 247, 227);
+  color blackColor = color(61, 54, 39);
 void setup() {
   //set canvas size
   size(1920,1080); //h: 2160
@@ -31,41 +35,54 @@ void setup() {
 }
 
 //loop function that runs on a loop 
-void draw(boolean isBlackPlaying) {
+void draw() {
+  //println(mouseX + ", " + mouseY);
   frames++;
+  //println(frames);
   //clear(); // reset screen
   background(100); // reset screen
 
-  float centerX = WIDTH/2;
-  float centerY = HEIGHT/2;
-  translate(centerX, centerY);
+  translate(width/2, height/2);
+  
+  boolean isWhitesTurn = gameLogic.whitesTurn;
 
-  drawBoard(isBlackPlaying);
+  drawBoard(!isWhitesTurn);
   
 }
 
 public void drawBoard( boolean isBlack) {
-    fill(255);
+    
+    fill(whiteColor);
+    strokeWeight(1);
+    stroke(255);
     rect(-boardSz/2, -boardSz/2, boardSz, boardSz);
 
     boolean startsBlack = isBlack;
     
     textSize(boardSz/16);
-    
-    fill(0);
+
+    fill(blackColor);
     pushMatrix();
     
     translate(-boardSz/2 -spaceSz , -boardSz/2);
+    
+    int curX = width/2 - boardSz/2 - spaceSz;
+    int curY = height/2 - boardSz/2;
+    
     for (int i = 0; i < 9;++i) {
       pushMatrix();
       for (int j = 0; j < 9; ++j) {
         if(j == 0 && i != 8) {
+          fill(0);
           String numStr = startsBlack ? i+1+"" : 8-i+"";
           text( numStr , boardSz/18, boardSz/12); 
           
         } else if ( i >= 0 && i < 8 ) {
-          if (isBlack)
+          
+          if (isBlack) { 
+            fill(blackColor);
             rect(0,0, spaceSz, spaceSz);
+          }
             
           BoardPlace renderingSpace;
           
@@ -78,21 +95,45 @@ public void drawBoard( boolean isBlack) {
           if (!renderingSpace.isEmpty()) {
             
               renderPiece(renderingSpace.holding);
-              fill(0);
+              fill(blackColor);
           } 
             
           isBlack = !isBlack;       
         } else if ( j != 0 ) {
+          fill(0);
           String letterStr = mapNumToChessLetter(j);
           text( letterStr, boardSz/20, boardSz/12 );
         }
+       
+        if ( playerChanged && i >= 0 && i < 8 && j >= 1 && j < 9 ) {
+           //println(curX + ", " + curY);
+           spacePos[i][j-1][0] = curX;
+           spacePos[i][j-1][1] = curY;
+           
+        }
+        
         translate(spaceSz, 0);
+        curX += spaceSz;
+       
+        
       }
       popMatrix();
+      curX -= spaceSz * 9;
       translate(0, spaceSz);
+      curY += spaceSz;
       isBlack = !isBlack;
     }
     popMatrix();
+    
+    if (!playerChanged) {
+    
+      highlightSpace();
+      
+    }
+    
+    playerChanged = false;
+    
+    
 }
 
 public void renderPiece (Piece renderingPiece) {
@@ -128,25 +169,33 @@ public String mapNumToChessLetter ( int number ) {
     }
 }
 
-public BoardPlace highlightSpace() {
+public void highlightSpace() {
   
-  for ( int i = 0; i < 9; ++i ) {
+  for ( int i = 0; i < 8; ++i ) {
   
-      for ( int j = 0; j < 9; ++j ) {
+      for ( int j = 0; j < 8; ++j ) {
         
           int x = spacePos[i][j][0];
           int y = spacePos[i][j][1];
-          BoardPlace space = gameLogic.gameBoard.gameSpace2D[i][j];
+          //BoardPlace space = gameLogic.gameBoard.gameSpace2D[i][j];
           
           if (mouseX > x && mouseX < x+spaceSz && mouseY > y && mouseY < y+spaceSz) {
             
-             print(space.toString());
-             return space; 
+             //println(space.toString());
+             //println(x + ", " + y);
+             noFill();
+             stroke(255, 237, 194);
+             strokeWeight(10);
              
-          } else print("1");
+             rect(
+               x-boardSz-spaceSz*1.6, 
+               y-boardSz+spaceSz*2.6, 
+               spaceSz, spaceSz
+             );
+             
+          } 
       
       }
     
   }
-  return null; 
 }

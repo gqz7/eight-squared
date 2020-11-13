@@ -12,7 +12,7 @@ public class Game {
     private Board gameBoard;
 
     private int turn;
-    private boolean whitesTurn;
+    public boolean whitesTurn;
 
     public Game () {
 
@@ -28,7 +28,7 @@ public class Game {
         boolean gameEnded = false;
         
         printCurrentGame();
-        draw(!whitesTurn);
+        draw();
         //while (!gameEnded) {
           
         //    printCurrentGame();
@@ -42,6 +42,7 @@ public class Game {
 
         //    whitesTurn = !whitesTurn;
         //    turn++;
+              //playerChanged = true;
         //}
         
         
