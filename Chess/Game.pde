@@ -1,8 +1,3 @@
-//package com.company.Chess.Logic;
-
-//import com.company.Chess.Logic.Enviorment.Board;
-//import com.company.Chess.Logic.Control.Player;
-//import com.company.Chess.Logic.Control.Turn;
 
 public class Game {
 
@@ -36,15 +31,20 @@ public class Game {
     private void gameAdvance( ChessTurn playersTurn ) {
         gameBoard.takeTurn(playersTurn);
 
-        whitesTurn = !whitesTurn;
         turn++;
         playerChanged = true;
+        transitioning = true;
+        transitionClock = 0;
         selectedPiece = null;
         hoveredSpace = null;
         
         printCurrentGame();
         //if (gameEnded = true) 
         //  gameStart()
+    }
+    
+    public void switchPlayers() {
+      whitesTurn = !whitesTurn;
     }
 
     public void printCurrentGame () {

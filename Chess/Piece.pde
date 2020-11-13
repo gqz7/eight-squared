@@ -1,7 +1,3 @@
-//package com.company.Chess.Logic.Pieces;
-
-//import com.company.Chess.Logic.Enviorment.Board;
-//import com.company.Chess.Logic.Enviorment.BoardPlace;
 
 public abstract class Piece implements Movable {
     public boolean isInGame;

@@ -1,4 +1,3 @@
-//package com.company;
 
 import java.text.MessageFormat;
 import java.util.Scanner;

@@ -1,8 +1,3 @@
-//package com.company.Chess.Logic.Enviorment;
-
-//import com.company.Chess.Logic.Control.Player;
-//import com.company.Chess.Logic.Control.Turn;
-//import com.company.Chess.Logic.Pieces.*;
 
 import java.util.Arrays;
 

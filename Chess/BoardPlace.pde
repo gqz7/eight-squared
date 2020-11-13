@@ -1,6 +1,3 @@
-//package com.company.Chess.Logic.Enviorment;
-
-//import com.company.Chess.Logic.Pieces.Piece;
 
 public class BoardPlace {
     public int row;

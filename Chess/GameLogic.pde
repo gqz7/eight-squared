@@ -1,9 +1,5 @@
 //package com.company.Chess.Logic;
 
-//import com.company.Chess.Logic.Enviorment.Board;
-//import com.company.Chess.Logic.Control.Player;
-//import com.company.Chess.Logic.Control.Turn;
-
 public class GameLogic {
 
     private Player player1;

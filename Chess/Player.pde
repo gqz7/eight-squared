@@ -1,9 +1,3 @@
-//package com.company.Chess.Logic.Control;
-
-//import com.company.Chess.Logic.Enviorment.Board;
-//import com.company.Chess.Logic.Enviorment.BoardPlace;
-//import com.company.CLI;
-//import com.company.Chess.Logic.Pieces.Piece;
 
 import java.util.Arrays;
 
