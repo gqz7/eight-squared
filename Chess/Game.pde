@@ -28,7 +28,7 @@ public class Game {
         boolean gameEnded = false;
         
         printCurrentGame();
-        redraw(!whitesTurn);
+        draw(!whitesTurn);
         //while (!gameEnded) {
           
         //    printCurrentGame();
