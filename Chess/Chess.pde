@@ -20,6 +20,9 @@
   
   boolean playerChanged = true;
   
+  boolean transitioning = false;
+  int transitionClock = 0;
+  
   color whiteColor = color(255, 247, 227);
   color blackColor = color(46, 39, 24);
 void setup() {
@@ -51,6 +54,8 @@ void draw() {
 
   drawBoard(!isWhitesTurn);
   
+  if (transitioning) renderTransition();
+  
 }
 
 public void drawBoard( boolean isBlack) {
@@ -67,7 +72,7 @@ public void drawBoard( boolean isBlack) {
 
     fill(whiteColor);
     strokeWeight(1);
-    stroke(255);
+    noStroke();
     rect(-boardSz/2, -boardSz/2, boardSz, boardSz);
     textSize(boardSz/16);
     fill(blackColor);
@@ -161,7 +166,6 @@ public void renderPiece (Piece renderingPiece) {
     text(renderingPiece.toString(), boardSz/75, boardSz/12);
 }
 
-
 public void highlightSpace() {
   
     for ( int i = 0; i < 8; ++i ) {
@@ -196,8 +200,10 @@ public void highlightSpace() {
 public void mousePressed() { 
 
     if ( //check if the mouse is in the play area
-      ( mouseX > width/2 + boardSz/2 && mouseX < width/2 - boardSz/2 )
-      || ( mouseY > height/2 + boardSz/2 && mouseY < height/2 - boardSz/2 )
+          playerChanged
+          || transitioning
+          || ( mouseX > width/2 + boardSz/2 && mouseX < width/2 - boardSz/2 )
+          || ( mouseY > height/2 + boardSz/2 && mouseY < height/2 - boardSz/2 )
     ) return;
 
     if ( Arrays.asList(possibleMoves).contains(hoveredSpace) ) {
@@ -255,6 +261,38 @@ public void renderPossibleMove (float transX, float transY, float rectWidth, flo
       rectHeight
     );
     noStroke();
+}
+
+public void renderTransition() {
+  
+  int tranistionPeriod = 50;
+
+  fill(0);
+  stroke(0);
+  float rectX = -boardSz/2 - spaceSz;
+  float rectWidth = boardSz + spaceSz;
+  transitionClock++;
+  
+  if (transitionClock == tranistionPeriod)
+    gameLogic.switchPlayers();
+  
+  if (transitionClock <= tranistionPeriod) {
+    
+    float rectY = -boardSz/2;
+    float rectHeight = boardSz * transitionClock/tranistionPeriod;
+    rect( rectX, rectY, rectWidth, rectHeight);
+    
+  } else if (transitionClock < tranistionPeriod*2) {
+    
+    float rectY = boardSz/2;
+    float rectHeight = -boardSz * (2 - (float) transitionClock/tranistionPeriod);
+    rect( rectX, rectY, rectWidth, rectHeight);
+    
+  } else {
+    transitioning = false;
+    transitionClock = 0;
+  }
+
 }
 
 

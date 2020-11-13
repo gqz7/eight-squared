@@ -1,7 +1,7 @@
 # eight²
 
 TODO
-[] fix bishop/queen diagonal logic. not able to go far enough when on some spaces (on side can go to 1/8)
+
 [] complete a check logic
 [] complete a checkmate logic
 [] complete a draw logic
@@ -10,4 +10,4 @@ TODO
     [] # of turns, 
     [] player moving, 
     [] move & game timer
-[] add between moves transition
+[*] add between moves transition
