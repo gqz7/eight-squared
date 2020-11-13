@@ -8,7 +8,7 @@
   //tracker for how many frames have elapsed
   int frames = 0;
   
-  
+  Game gameLogic; //where all the game data is stored
 
   int boardSz = 800; //size of board width/height
   
@@ -22,8 +22,8 @@ void setup() {
   noLoop(); //uncomment to only render one frame
 
   //draw();
-  Game game = new Game();
-  game.gameStart();
+  gameLogic = new Game();
+  gameLogic.gameStart();
 }
 
 //loop function that runs on a loop 
@@ -64,6 +64,12 @@ public void drawBoard( boolean isBlack) {
           if (isBlack)
             rect(0,0, boardSz/8, boardSz/8);
             
+          BoardPlace renderingSpace = gameLogic.gameBoard.gameSpace2D[i][j-1];
+          if (!renderingSpace.isEmpty()) {
+              renderPiece(renderingSpace);
+              fill(0);
+          } 
+            
           isBlack = !isBlack;       
         } else if ( j != 0 ) {
           String letterStr = mapNumToChessLetter(j);
@@ -76,6 +82,11 @@ public void drawBoard( boolean isBlack) {
       isBlack = !isBlack;
     }
     popMatrix();
+}
+
+public void renderPiece (BoardPlace space) {
+    fill(0, 102, 153);
+    text(space.holding.toString(), boardSz/50, boardSz/12);
 }
 
 public String mapNumToChessLetter ( int number ) {

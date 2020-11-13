@@ -13,7 +13,7 @@ public class Board {
     final static int totalColumns = 8;
 
     private final BoardPlace[] gameSpace1D;
-    private final BoardPlace[][] gameSpace2D;
+    public final BoardPlace[][] gameSpace2D;
 
     public Board(Player player1, Player player2) {
         BoardPlace[][][] boardData = initializeBoard( player1, player2 );
