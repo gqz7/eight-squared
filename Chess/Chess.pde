@@ -52,8 +52,7 @@ public void drawBoard( boolean isBlack) {
     pushMatrix();
     
     translate(-boardSz/2 -boardSz/8 , -boardSz/2);
-    
-    for (int i = 0; i < 9; ++i) {
+    for (int i = 0; i < 9;++i) {
       pushMatrix();
       for (int j = 0; j < 9; ++j) {
         if(j == 0 && i != 8) {
@@ -64,9 +63,17 @@ public void drawBoard( boolean isBlack) {
           if (isBlack)
             rect(0,0, boardSz/8, boardSz/8);
             
-          BoardPlace renderingSpace = gameLogic.gameBoard.gameSpace2D[i][j-1];
+          BoardPlace renderingSpace;
+          
+          if (startsBlack) 
+            renderingSpace = gameLogic.gameBoard.gameSpace2D[i][j-1];
+          else
+            renderingSpace = gameLogic.gameBoard.gameSpace2D[7-i][j-1];
+          
+          
           if (!renderingSpace.isEmpty()) {
-              renderPiece(renderingSpace);
+            
+              renderPiece(renderingSpace.holding);
               fill(0);
           } 
             
@@ -84,9 +91,13 @@ public void drawBoard( boolean isBlack) {
     popMatrix();
 }
 
-public void renderPiece (BoardPlace space) {
-    fill(0, 102, 153);
-    text(space.holding.toString(), boardSz/50, boardSz/12);
+public void renderPiece (Piece renderingPiece) {
+    
+    if (renderingPiece.isWhite) 
+      fill (200, 0, 200);
+    else 
+      fill (0, 200, 200);
+    text(renderingPiece.toString(), boardSz/75, boardSz/12);
 }
 
 public String mapNumToChessLetter ( int number ) {
