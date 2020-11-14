@@ -16,6 +16,15 @@ public class Queen extends Piece {
     }
 
     @Override
+    public String toString() {
+        return (this.isWhite ? "W" : "B") + "Q";
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+    @Override
     public BoardPlace[] getPossibleMoves( Board board) {
         Piece movingPiece = this;
 
@@ -46,13 +55,4 @@ public class Queen extends Piece {
         return movesList.toArray( new BoardPlace[0] );
     }
 
-    @Override
-    public String toString() {
-        return (this.isWhite ? "W" : "B") + "Q";
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
 }

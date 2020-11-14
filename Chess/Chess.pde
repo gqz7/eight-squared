@@ -45,8 +45,10 @@ void draw() {
   frames++;
   //println(frames);
   //println(hoveredSpace);
-  //clear(); // reset screen
+  clear(); // reset screen
   background(100); // reset screen
+
+  renderGameInfo();
 
   translate(width/2, height/2);
   
@@ -108,14 +110,12 @@ public void drawBoard( boolean isBlack) {
           
           
           if (!renderingSpace.isEmpty()) {
-            
               renderPiece(renderingSpace.holding);
               fill(blackColor);
           } 
           
           if ( selectedPiece != null && renderingSpace.holding == selectedPiece ) 
-              renderHighlight( 0, 0, (float) spaceSz,  (float) spaceSz);
-          
+              renderHighlight( 0, 0, (float) spaceSz,  (float) spaceSz);     
           
           if (Arrays.asList(possibleMoves).contains(renderingSpace))
               renderPossibleMove( spaceSz/10, spaceSz/10, (float) spaceSz-spaceSz/5,  (float) spaceSz-spaceSz/5); 
@@ -157,46 +157,6 @@ public void drawBoard( boolean isBlack) {
     
 }
 
-public void renderPiece (Piece renderingPiece) {
-    
-    if (renderingPiece.isWhite) 
-      fill (200, 0, 200);
-    else 
-      fill (0, 200, 200);
-    text(renderingPiece.toString(), boardSz/75, boardSz/12);
-}
-
-public void highlightSpace() {
-  
-    for ( int i = 0; i < 8; ++i ) {
-    
-        for ( int j = 0; j < 8; ++j ) {
-          
-            int x = spacePos[i][j][0];
-            int y = spacePos[i][j][1];
-            BoardPlace space;
-            
-            if (!gameLogic.whitesTurn) 
-            space = gameLogic.gameBoard.gameSpace2D[i][j];
-            else
-            space = gameLogic.gameBoard.gameSpace2D[7-i][j];
-            
-            if (mouseX > x && mouseX < x+spaceSz && mouseY > y && mouseY < y+spaceSz) {
-              
-              hoveredSpace = space;
-              
-              renderHighlight(
-                x-width/2, 
-                y-height/2, 
-                (float) spaceSz, (float) spaceSz
-              );
-              
-              return; 
-            } 
-        }
-    }
-}
-
 public void mousePressed() { 
 
     if ( //check if the mouse is in the play area
@@ -209,7 +169,7 @@ public void mousePressed() {
     if ( Arrays.asList(possibleMoves).contains(hoveredSpace) ) {
         println( selectedPiece.getName() + " to " + hoveredSpace.notation);
 
-        ChessTurn playerMove = new ChessTurn(selectedPiece, hoveredSpace);
+        ChessTurn playerMove = selectedPiece.move(hoveredSpace);
         gameLogic.gameAdvance(playerMove);
     } 
     //check to make sure the space the player is selection is not empty, 
@@ -267,8 +227,8 @@ public void renderTransition() {
   
   int tranistionPeriod = 50;
 
-  fill(0);
-  stroke(0);
+  fill(17, 22, 23);
+  stroke(17, 22, 23);
   float rectX = -boardSz/2 - spaceSz;
   float rectWidth = boardSz + spaceSz;
   transitionClock++;
@@ -293,6 +253,80 @@ public void renderTransition() {
     transitionClock = 0;
   }
 
+}
+
+public void renderPiece (Piece renderingPiece) {
+    
+    if (renderingPiece.isWhite) 
+      fill (200, 0, 200);
+    else 
+      fill (0, 200, 200);
+    text(renderingPiece.toString(), boardSz/75, boardSz/12);
+}
+
+public void renderGameInfo () {
+  
+    int textSz = boardSz/30;
+    
+    color bgColor = color( 17, 22, 23 );
+    color textColor = color(  255, 254, 248 );
+    
+    float infoBoardHeight = boardSz/4.7;
+    
+    
+    String turnStr = "Turn: " + gameLogic.getTurn();
+
+    String playingStr = "Playing: " + (gameLogic.getWhitesTurn() ? "White" : "Black");
+    
+    textSize(textSz);
+    noStroke();
+
+
+    pushMatrix();
+    
+      
+      fill(bgColor);
+      translate(width/2 - boardSz/2, boardSz/8);
+      rect(0,0,boardSz, infoBoardHeight);
+      
+      fill(255);
+      text(turnStr, boardSz/30, infoBoardHeight/2 + textSz/2);
+      text(playingStr, boardSz/4, infoBoardHeight/2 + textSz/2);
+
+      
+    popMatrix();
+
+}
+
+public void highlightSpace() {
+  
+    for ( int i = 0; i < 8; ++i ) {
+    
+        for ( int j = 0; j < 8; ++j ) {
+          
+            int x = spacePos[i][j][0];
+            int y = spacePos[i][j][1];
+            BoardPlace space;
+            
+            if (!gameLogic.whitesTurn) 
+            space = gameLogic.gameBoard.gameSpace2D[i][j];
+            else
+            space = gameLogic.gameBoard.gameSpace2D[7-i][j];
+            
+            if (mouseX > x && mouseX < x+spaceSz && mouseY > y && mouseY < y+spaceSz) {
+              
+              hoveredSpace = space;
+              
+              renderHighlight(
+                x-width/2, 
+                y-height/2, 
+                (float) spaceSz, (float) spaceSz
+              );
+              
+              return; 
+            } 
+        }
+    }
 }
 
 

@@ -22,6 +22,11 @@ public class Bishop extends Piece {
     }
 
     @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
     public BoardPlace[] getPossibleMoves( Board board) {
         Piece movingPiece = this;
 
@@ -52,10 +57,5 @@ public class Bishop extends Piece {
         }
 
         return movesList.toArray( new BoardPlace[0] );
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 }

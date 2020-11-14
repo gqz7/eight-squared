@@ -17,6 +17,16 @@ public class Knight extends Piece {
     }
 
     @Override
+    public String toString() {
+        return (this.isWhite ? "W" : "B") + "H";
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
     public BoardPlace[] getPossibleMoves( Board board ) {
         Piece movingPiece = this;
 
@@ -42,15 +52,5 @@ public class Knight extends Piece {
             }
         }
         return movesList.toArray( new BoardPlace[0] );
-    }
-
-    @Override
-    public String toString() {
-        return (this.isWhite ? "W" : "B") + "H";
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 }

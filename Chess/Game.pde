@@ -47,6 +47,14 @@ public class Game {
       whitesTurn = !whitesTurn;
     }
 
+    public boolean getWhitesTurn () {
+        return whitesTurn;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
     public void printCurrentGame () {
         System.out.println("\n________________________________________________\n");
         System.out.println("TURN: " + turn + "\t\tMOVING: " + (whitesTurn ? "WHITE" : "BLACK") +"\n");

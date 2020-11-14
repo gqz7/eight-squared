@@ -16,8 +16,6 @@ public class Pawn extends Piece {
         return new ChessTurn(this, moving);
     }
 
-
-
     @Override
     public String toString() {
         return (this.isWhite ? "W" : "B") + "P";

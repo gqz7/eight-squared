@@ -4,7 +4,6 @@ import java.util.List;
 
 public class King extends Piece {
 
-
     private String name;
     public King (BoardPlace startPos) {
         super(startPos);
@@ -14,6 +13,16 @@ public class King extends Piece {
     @Override
     public ChessTurn move(BoardPlace moving) {
         return new ChessTurn(this, moving);
+    }
+
+    @Override
+    public String toString() {
+        return (this.isWhite ? "W" : "B") + "K";
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     @Override
@@ -40,15 +49,5 @@ public class King extends Piece {
         }
 
         return movesList.toArray( new BoardPlace[0] );
-    }
-
-    @Override
-    public String toString() {
-        return (this.isWhite ? "W" : "B") + "K";
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 }
