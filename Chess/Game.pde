@@ -7,7 +7,7 @@ public class Game {
     private Board gameBoard;
 
     private int turn;
-    public boolean whitesTurn;
+    private boolean whitesTurn;
 
     public Game () {
 
@@ -49,6 +49,18 @@ public class Game {
 
     public boolean getWhitesTurn () {
         return whitesTurn;
+    }
+    
+    public void advancePlayerTime (boolean isWhite) {
+      if (isWhite)
+        player1.advanceTime();
+      else
+        player2.advanceTime();
+    
+    }
+
+    public int[] getPlayersTime () {
+        return new int[] {player1.getPlayTime(), player2.getPlayTime()};
     }
 
     public int getTurn() {
