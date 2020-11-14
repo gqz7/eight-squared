@@ -13,6 +13,9 @@ public abstract class Piece implements Movable {
             isWhite = true;
         else isWhite = false;
     }
+    
+    public boolean getIsInGame() { return isInGame; };
+    
     @Override
     abstract public String toString();
 

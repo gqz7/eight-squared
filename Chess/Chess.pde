@@ -29,7 +29,7 @@
   color blackColor = color(46, 39, 24);
 void setup() {
   //set canvas size
-  size(1280,1280); //w: 3840 - 1920 h: 2160 - 1080
+  size(1920,1280); //w: 3840 - 1920 h: 2160 - 1080
   
   //create instance of the simplex noise class
   //background(255); // reset screen
@@ -85,6 +85,8 @@ public void drawBoard( boolean isBlack) {
     pushMatrix();
     
     translate(-boardSz/2 -spaceSz , -boardSz/2);
+    
+    renderLostPieces();
     
     int curX = width/2 - boardSz/2 - spaceSz;
     int curY = height/2 - boardSz/2;
@@ -265,6 +267,30 @@ public void renderPiece (Piece renderingPiece) {
     else 
       fill (0, 200, 200);
     text(renderingPiece.toString(), boardSz/75, boardSz/12);
+}
+
+public void renderLostPieces() {
+
+  int count = 0;
+  
+  pushMatrix();
+  
+    List<Piece> lostWhitePieces = gameLogic.getLostPieces(true);
+  
+    List<Piece> lostBlackPieces = gameLogic.getLostPieces(false);
+    
+    println("MissingWhite");
+    for ( Piece p : lostWhitePieces ) {
+      println(p);
+    
+    }
+    println("MissingBlack"); 
+    for ( Piece p : lostBlackPieces ) {
+      println(p);
+    }
+  
+  popMatrix();
+
 }
 
 public void renderGameInfo () {

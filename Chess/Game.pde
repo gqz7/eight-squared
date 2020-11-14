@@ -66,6 +66,14 @@ public class Game {
     public int getTurn() {
         return turn;
     }
+    
+    public List<Piece> getLostPieces(boolean isWhite) {
+    
+      if (isWhite)
+        return player1.getLostPieces();
+      else 
+        return player2.getLostPieces();
+    }
 
     public void printCurrentGame () {
         System.out.println("\n________________________________________________\n");

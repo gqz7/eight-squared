@@ -1,5 +1,7 @@
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Player {
     private boolean isWhite;
@@ -27,6 +29,20 @@ public class Player {
     public void addPiece (Piece newPiece ) {
         pieces[totalPieces] = newPiece;
         totalPieces++;
+    }
+    
+    public List<Piece> getLostPieces() {
+      
+       List<Piece> lostPieces = new ArrayList();
+
+       for (Piece p : pieces) {
+           
+         if (!p.getIsInGame())
+           lostPieces.add(p);
+       
+       }
+       
+       return lostPieces;
     }
 
     @Override
