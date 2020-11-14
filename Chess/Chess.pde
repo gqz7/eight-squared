@@ -12,7 +12,9 @@
   
   Piece selectedPiece;
 
-  int boardSz = 1200; //size of board width/height
+  int prevSecond = second();
+
+  int boardSz = 800; //size of board width/height
   
   int spaceSz = boardSz / 8 ;
   
@@ -27,7 +29,7 @@
   color blackColor = color(46, 39, 24);
 void setup() {
   //set canvas size
-  size(1920,2160); //w: 3840 - 1920 h: 2160 - 1080
+  size(1280,1280); //w: 3840 - 1920 h: 2160 - 1080
   
   //create instance of the simplex noise class
   //background(255); // reset screen
@@ -41,10 +43,11 @@ void setup() {
 
 //loop function that runs on a loop 
 void draw() {
-  //println(mouseX + ", " + mouseY);
+  
+  manageTimer();
+  
   frames++;
-  //println(frames);
-  //println(hoveredSpace);
+  
   clear(); // reset screen
   background(100); // reset screen
 
@@ -230,7 +233,7 @@ public void renderTransition() {
   fill(17, 22, 23);
   stroke(17, 22, 23);
   float rectX = -boardSz/2 - spaceSz;
-  float rectWidth = boardSz + spaceSz;
+  float rectWidth = boardSz + spaceSz*2;
   transitionClock++;
   
   if (transitionClock == tranistionPeriod)
@@ -273,26 +276,28 @@ public void renderGameInfo () {
     
     float infoBoardHeight = boardSz/4.7;
     
+    int[] gameTimes = gameLogic.getPlayersTime();
     
     String turnStr = "Turn: " + gameLogic.getTurn();
 
     String playingStr = "Playing: " + (gameLogic.getWhitesTurn() ? "White" : "Black");
+
+    String timeString = "Game: " + (gameTimes[0]+gameTimes[1]) + "\nWhite: " + gameTimes[0]  + "\n Black: " + gameTimes[1];
     
     textSize(textSz);
     noStroke();
-
 
     pushMatrix();
     
       
       fill(bgColor);
-      translate(width/2 - boardSz/2, boardSz/8);
-      rect(0,0,boardSz, infoBoardHeight);
+      translate(width/2 - boardSz/1.5, height/10 - boardSz/8);
+      rect(0,0,boardSz*1.333, infoBoardHeight);
       
-      fill(255);
-      text(turnStr, boardSz/30, infoBoardHeight/2 + textSz/2);
-      text(playingStr, boardSz/4, infoBoardHeight/2 + textSz/2);
-
+      fill(textColor);
+      text(turnStr, boardSz/5, infoBoardHeight/2 + textSz/2);
+      text(playingStr, boardSz/1.8, infoBoardHeight/2 + textSz/2);
+      text(timeString, boardSz, infoBoardHeight/2 - textSz);
       
     popMatrix();
 
@@ -353,3 +358,23 @@ public String mapNumToChessLetter ( int number ) {
          return "Z";
     }
 } 
+
+public void manageTimer() {
+  
+  if (transitioning) return;
+
+  int curSecond = second();
+  
+  if (curSecond != prevSecond) {
+  
+    prevSecond = curSecond;
+    
+    boolean playingWhite = gameLogic.getWhitesTurn();
+    
+    gameLogic.advancePlayerTime(playingWhite);
+      
+  
+  }
+    
+
+}
