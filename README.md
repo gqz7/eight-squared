@@ -11,3 +11,7 @@ TODO
     [*] player moving, 
     [*] move & game timer
 [*] add between moves transition
+[*] delay timer count one second if a turn change just occured 
+[] implement choice of piece if pawn get to other side of the
+[] add draw button with warning
+[] when you click a piece a second time it should deselect 
