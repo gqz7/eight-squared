@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 //GLOBAL VARS
 
@@ -11,6 +15,9 @@
   BoardPlace[] possibleMoves;
   
   Piece selectedPiece;
+  
+  Map<String, PImage> pieceImagesMap = new HashMap<String, PImage>();
+  String imageDirectoryPath = "./images/";
 
   int prevSecond = second();
 
@@ -35,7 +42,7 @@ void setup() {
   //background(255); // reset screen
   noStroke();
   //noLoop(); //uncomment to only render one frame
-
+  loadImages();
   //draw();
   gameLogic = new Game();
   gameLogic.gameStart();
@@ -262,11 +269,17 @@ public void renderTransition() {
 
 public void renderPiece (Piece renderingPiece) {
     
-    if (renderingPiece.isWhite) 
-      fill (200, 0, 200);
-    else 
-      fill (0, 200, 200);
-    text(renderingPiece.toString(), boardSz/75, boardSz/12);
+    //if (renderingPiece.isWhite) 
+    //  fill (200, 0, 200);
+    //else 
+    //  fill (0, 200, 200);
+      
+    //text(renderingPiece.getName(), boardSz/75, boardSz/12);
+    String imgName = (renderingPiece.isWhite ? "w" : "b" ) + renderingPiece.getName();
+    
+    // println(pieceImagesMap);
+    
+    image( pieceImagesMap.get(imgName), 0, 0, spaceSz, spaceSz);
 }
 
 public void renderLostPieces() {
@@ -370,6 +383,24 @@ public void highlightSpace() {
     }
 }
 
+public void loadImages(){
+
+  
+  String[] chessPieceNames = new String[] {"Pawn", "Bishop", "Rook", "Knight", "King", "Queen"};
+  
+  for ( String name : chessPieceNames ) {
+    
+    int count = 0;
+    while ( count < 2 ) {
+      String pieceFileName = ( count == 0 ? "w" : "b" ) + name;
+      PImage image = loadImage( imageDirectoryPath + pieceFileName + ".png");
+      pieceImagesMap.put(pieceFileName, image);
+      count++;
+    }
+  
+  }
+
+}
 
 public String mapNumToChessLetter ( int number ) {
     //number;
