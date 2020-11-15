@@ -275,18 +275,28 @@ public void renderLostPieces() {
   
   pushMatrix();
   
-    List<Piece> lostWhitePieces = gameLogic.getLostPieces(true);
+    List<Piece> lostWhitePieces = gameLogic.getLostPieces(true); //boolean passed indicates if it will recieve White, or Black player's pieces
   
     List<Piece> lostBlackPieces = gameLogic.getLostPieces(false);
     
-    println("MissingWhite");
+    translate( -spaceSz*3,0);
+    int wCount = 0;
     for ( Piece p : lostWhitePieces ) {
-      println(p);
-    
+      pushMatrix();
+        translate( wCount % 2 == 0 ? 0 : spaceSz, spaceSz * (int)(wCount/2) );
+        renderPiece(p);
+        wCount++;
+      popMatrix();
     }
-    println("MissingBlack"); 
+    
+    int bCount = 0;
+    translate( spaceSz*6 + boardSz, 0);
     for ( Piece p : lostBlackPieces ) {
-      println(p);
+      pushMatrix();
+        translate( bCount % 2 == 0 ? 0 : spaceSz, spaceSz * (int)(bCount/2) );
+        renderPiece(p);
+        bCount++;
+      popMatrix();
     }
   
   popMatrix();
