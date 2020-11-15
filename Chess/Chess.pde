@@ -30,6 +30,7 @@ import java.util.Map;
   boolean playerChanged = true;
   
   boolean transitioning = false;
+  boolean transitionGraceSecond = false;
   int transitionClock = 0;
   
   color whiteColor = color(255, 247, 227);
@@ -38,12 +39,9 @@ void setup() {
   //set canvas size
   size(1920,1280); //w: 3840 - 1920 h: 2160 - 1080
   
-  //create instance of the simplex noise class
-  //background(255); // reset screen
   noStroke();
-  //noLoop(); //uncomment to only render one frame
   loadImages();
-  //draw();
+  
   gameLogic = new Game();
   gameLogic.gameStart();
 }
@@ -56,7 +54,7 @@ void draw() {
   frames++;
   
   clear(); // reset screen
-  background(100); // reset screen
+  background(30); // reset screen
 
   renderGameInfo();
 
@@ -102,7 +100,7 @@ public void drawBoard( boolean isBlack) {
       pushMatrix();
       for (int j = 0; j < 9; ++j) {
         if(j == 0 && i != 8) {
-          fill(0);
+          fill(255);
           String numStr = startsBlack ? i+1+"" : 8-i+"";
           text( numStr , boardSz/18, boardSz/12); 
           
@@ -134,7 +132,7 @@ public void drawBoard( boolean isBlack) {
             
           isBlack = !isBlack;       
         } else if ( j != 0 ) {
-          fill(0);
+          fill(200);
           String letterStr = mapNumToChessLetter(j);
           text( letterStr, boardSz/20, boardSz/12 );
         }
@@ -330,8 +328,12 @@ public void renderGameInfo () {
     String turnStr = "Turn: " + gameLogic.getTurn();
 
     String playingStr = "Playing: " + (gameLogic.getWhitesTurn() ? "White" : "Black");
-
-    String timeString = "Game: " + (gameTimes[0]+gameTimes[1]) + "\nWhite: " + gameTimes[0]  + "\n Black: " + gameTimes[1];
+    
+    String totalGameTime = formatTime(gameTimes[0]+gameTimes[1]);
+    String whitesTime = formatTime(gameTimes[0]);
+    String blacksTime = formatTime(gameTimes[1]);
+    
+    String timeString = "Game: " + totalGameTime + "\nWhite: " + whitesTime + "\n Black: " + blacksTime;
     
     textSize(textSz);
     noStroke();
@@ -433,8 +435,13 @@ public void manageTimer() {
   int curSecond = second();
   
   if (curSecond != prevSecond) {
-  
+    
     prevSecond = curSecond;
+    
+    if (transitionGraceSecond) {
+        transitionGraceSecond = false;
+        return;
+    }
     
     boolean playingWhite = gameLogic.getWhitesTurn();
     
@@ -445,3 +452,15 @@ public void manageTimer() {
     
 
 }
+
+public String formatTime( int secs ) {
+  
+  int hours = secs / 3600;
+  secs -= hours*3600;
+  
+  int mins = secs / 60;
+  secs -= mins * 60;
+  
+  return hours + ":" + (mins > 9 ? mins : "0" + mins ) + ":" + (secs > 9 ? secs : "0" + secs );
+
+} 

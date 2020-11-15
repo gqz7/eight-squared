@@ -34,6 +34,7 @@ public class Game {
         turn++;
         playerChanged = true;
         transitioning = true;
+        transitionGraceSecond = true;
         transitionClock = 0;
         selectedPiece = null;
         hoveredSpace = null;
