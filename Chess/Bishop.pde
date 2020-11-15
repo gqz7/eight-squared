@@ -13,7 +13,7 @@ public class Bishop extends Piece {
 
     @Override
     public String toString() {
-        return (this.isWhite ? "W" : "B") + "B";
+        return (this.getIsWhite() ? "W" : "B") + "B";
     }
 
     @Override

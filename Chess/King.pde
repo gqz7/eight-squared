@@ -17,7 +17,7 @@ public class King extends Piece {
 
     @Override
     public String toString() {
-        return (this.isWhite ? "W" : "B") + "K";
+        return (this.getIsWhite() ? "W" : "B") + "K";
     }
 
     @Override

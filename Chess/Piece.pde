@@ -1,9 +1,8 @@
 
 public abstract class Piece implements Movable {
-    public boolean isInGame;
-    public boolean isWhite;
+    private boolean isInGame;
+    private boolean isWhite;
     public BoardPlace position;
-    private String name;
 
     public Piece( BoardPlace startPosition) {
         position = startPosition;
@@ -15,6 +14,8 @@ public abstract class Piece implements Movable {
     }
     
     public boolean getIsInGame() { return isInGame; };
+    
+    public boolean getIsWhite() { return isWhite; };
     
     @Override
     abstract public String toString();

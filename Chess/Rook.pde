@@ -15,7 +15,7 @@ public class Rook extends Piece {
 
     @Override
     public String toString() {
-        return (this.isWhite ? "W" : "B") + "R";
+        return (this.getIsWhite() ? "W" : "B") + "R";
     }
 
     @Override

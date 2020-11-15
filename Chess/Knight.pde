@@ -18,7 +18,7 @@ public class Knight extends Piece {
 
     @Override
     public String toString() {
-        return (this.isWhite ? "W" : "B") + "H";
+        return (this.getIsWhite() ? "W" : "B") + "H";
     }
 
     @Override

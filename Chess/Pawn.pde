@@ -18,7 +18,7 @@ public class Pawn extends Piece {
 
     @Override
     public String toString() {
-        return (this.isWhite ? "W" : "B") + "P";
+        return (this.getIsWhite() ? "W" : "B") + "P";
     }
 
     @Override
