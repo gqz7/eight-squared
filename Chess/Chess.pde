@@ -21,7 +21,7 @@ import java.util.Map;
 
   int prevSecond = second();
 
-  int boardSz = 800; //size of board width/height
+  int boardSz = 600; //size of board width/height
   
   int spaceSz = boardSz / 8 ;
   
@@ -37,7 +37,7 @@ import java.util.Map;
   color blackColor = color(46, 39, 24);
 void setup() {
   //set canvas size
-  size(1920,1280); //w: 3840 - 1920 h: 2160 - 1080
+  size(1080,900); //w: 3840 - 1920 h: 2160 - 1080
   
   noStroke();
   loadImages();
