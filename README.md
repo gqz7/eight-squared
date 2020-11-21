@@ -14,4 +14,4 @@ TODO
 [*] delay timer count one second if a turn change just occured 
 [] implement choice of piece if pawn get to other side of the
 [] add resign button with warning
-[] when you click a piece a second time it should de-select 
+[*] when you click a piece a second time it should de-select 

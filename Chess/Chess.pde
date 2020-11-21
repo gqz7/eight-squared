@@ -195,7 +195,8 @@ public void mousePressed() {
     
     if (isPlayersPiece) {
       //println(hoveredSpace.holding.toString() + ": " + hoveredSpace.holding.position.notation);
-      selectedPiece = hoveredSpace.holding;
+      if (selectedPiece == hoveredSpace.holding) selectedPiece = null;
+      else selectedPiece = hoveredSpace.holding;
     } else {
       //println("That's not yours");
     }  
