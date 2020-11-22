@@ -27,11 +27,15 @@ import java.util.Map;
   
   int[][][] spacePos = new int[8][8][2];
   
+  String[] choices;
+  
   boolean playerChanged = true;
   
   boolean transitioning = false;
   boolean transitionGraceSecond = false;
   int transitionClock = 0;
+  
+  boolean isChoosing = false;
   
   color whiteColor = color(255, 247, 227);
   color blackColor = color(46, 39, 24);
@@ -48,6 +52,8 @@ void setup() {
 
 //loop function that runs on a loop 
 void draw() {
+  
+  if ( isChoosing ) renderChoices();
   
   manageTimer();
   
