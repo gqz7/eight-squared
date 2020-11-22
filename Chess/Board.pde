@@ -108,7 +108,18 @@ public class Board {
             spaceMovingTo.holding.position = null;
         }
         spaceMovingTo.holding = movingPiece;
-
+        
+        println( movingPiece.toString() + spaceMovingTo.row);
+        
+        if ( movingPiece.toString() == "WP" && spaceMovingTo.row == 8 
+            || movingPiece.toString() == "BP" && spaceMovingTo.row == 1
+        ){ 
+          choices[0] = "Knight";
+          choices[1] = "Queen";
+          isChoosing = true;     
+        
+        }
+        
         //update the board
         gameSpace2D[oldSpace.row-1][oldSpace.columnInt-1] = oldSpace;
         gameSpace2D[newSpace.row-1][newSpace.columnInt-1] = newSpace;
