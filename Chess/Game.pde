@@ -36,12 +36,11 @@ public class Game {
         transitioning = true;
         transitionGraceSecond = true;
         transitionClock = 0;
-        selectedPiece = null;
         hoveredSpace = null;
         
-        printCurrentGame();
-        //if (gameEnded = true) 
-        //  gameStart()
+        // printCurrentGame();
+        if (gameEnded = true) 
+         gameStart()
     }
     
     public void switchPlayers() {
