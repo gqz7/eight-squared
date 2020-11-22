@@ -50,7 +50,6 @@ public class Board {
 
     private Piece getSpacesPiece(BoardPlace startPos) {
         if (startPos.row > 2 && startPos.row < 7 ) return null;
-       
 
         if (startPos.row == 2 || startPos.row == 7 ) return new Pawn(startPos);
 
@@ -94,6 +93,7 @@ public class Board {
     }
 
     public void takeTurn(ChessTurn playersTurn) {
+      
         Piece movingPiece = playersTurn.movingPiece;
         BoardPlace spaceMovingTo = playersTurn.moveTo;
 
@@ -109,16 +109,14 @@ public class Board {
         }
         spaceMovingTo.holding = movingPiece;
         
-        println( movingPiece.toString() + spaceMovingTo.row);
-        
-        if ( movingPiece.toString() == "WP" && spaceMovingTo.row == 8 
-            || movingPiece.toString() == "BP" && spaceMovingTo.row == 1
-        ){ 
+        if ( (movingPiece.toString().equals("WP") && spaceMovingTo.row == 8) 
+            || (movingPiece.toString().equals("BP") && spaceMovingTo.row == 1) )
+        {   
           choices[0] = "Knight";
           choices[1] = "Queen";
           isChoosing = true;     
-        
-        }
+        } else 
+            selectedPiece = null;
         
         //update the board
         gameSpace2D[oldSpace.row-1][oldSpace.columnInt-1] = oldSpace;
@@ -126,6 +124,24 @@ public class Board {
 
         gameSpace1D[(oldSpace.row-1)*8 + oldSpace.columnInt-1] = oldSpace;
         gameSpace1D[(newSpace.row-1)*8 + newSpace.columnInt-1] = newSpace;
+    }
+    
+    public void transformPiece(Piece changingPiece, String pieceType) {
+    
+      boolean isWhite = changingPiece.getIsWhite();
+      BoardPlace piecesSpace = changingPiece.position;
+      BoardPlace startSpace = isWhite ? gameSpace1D[0] : gameSpace1D[gameSpace1D.length-1] ;
+      Piece newPiece = pieceType == "Q" 
+        ? new Queen(startSpace) 
+        : new Knight(startSpace);
+      newPiece.position = piecesSpace;
+      piecesSpace.holding = newPiece;
+      
+      if (isWhite) gameLogic.player1.addPiece(newPiece);
+      else gameLogic.player2.addPiece(newPiece);
+      
+      gameSpace2D[piecesSpace.row-1][piecesSpace.columnInt-1] = piecesSpace;
+      gameSpace1D[(piecesSpace.row-1)*8 + piecesSpace.columnInt-1] = piecesSpace;
     }
 
     public BoardPlace getSpace (int rowInt, int colInt) {
