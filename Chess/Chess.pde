@@ -39,12 +39,18 @@ boolean isChoosing = false;
 
 color whiteColor = color(255, 247, 227);
 color blackColor = color(46, 39, 24);
+
+int resignBtnX, resignBtnY, resignBtnWidth, resignBtnHeight;
+int leftBtnX, leftBtnY, leftBtnWidth, leftBtnHeight;
+int rightBtnX, rightBtnY, rightBtnWidth, rightBtnHeight;
+
 void setup() {
   //set canvas size
-  size(1080, 900); //w: 3840 - 1920 h: 2160 - 1080
+  size(1280, 900); //w: 3840 - 1920 h: 2160 - 1080
 
   noStroke();
   loadImages();
+  setBtnPositions();
 
   gameLogic = new Game();
   gameLogic.gameStart();
@@ -52,9 +58,6 @@ void setup() {
 
 //loop function that runs on a loop 
 void draw() {
-  
-  println(isChoosing);
-
 
   manageTimer();
 
@@ -71,11 +74,11 @@ void draw() {
 
   drawBoard(!isWhitesTurn);
   
-  if ( true ) renderChoices();
-
-  if (transitioning) renderTransition();
+  if ( isChoosing ) renderChoices();
+  else if (transitioning) renderTransition();
+  else renderResignBtn();
 }
-
+  
 public void drawBoard( boolean isBlack) {
 
   possibleMoves = 
@@ -171,41 +174,87 @@ public void drawBoard( boolean isBlack) {
 public void mousePressed() { 
 
   if ( //check if the mouse is in the play area
-    playerChanged
-    || transitioning
-    || ( mouseX > width/2 + boardSz/2 && mouseX < width/2 - boardSz/2 )
-    || ( mouseY > height/2 + boardSz/2 && mouseY < height/2 - boardSz/2 )
+    (playerChanged && !isChoosing)
+    || (transitioning && !isChoosing)
     ) return;
 
-  if ( Arrays.asList(possibleMoves).contains(hoveredSpace) ) {
-    println( selectedPiece.getName() + " to " + hoveredSpace.notation);
-
-    ChessTurn playerMove = selectedPiece.move(hoveredSpace);
-    gameLogic.gameAdvance(playerMove);
-  } 
-  //check to make sure the space the player is selection is not empty, 
-  //hoveredSpace will be null when the game starts and right after a move before the board has been hovered
   if (
-    hoveredSpace == null 
-    || hoveredSpace.holding == null 
-    ) return;
+      !isChoosing && (
+      ( mouseX > width/2 - boardSz/2 && mouseX < width/2 + boardSz/2 )
+      && ( mouseY <= height/2 + boardSz/2 && mouseY >= height/2 - boardSz/2 )) )
+     {
+        if ( Arrays.asList(possibleMoves).contains(hoveredSpace) ) {
+          println( selectedPiece.getName() + " to " + hoveredSpace.notation);
 
-  Piece hoverP = hoveredSpace.holding;
+          ChessTurn playerMove = selectedPiece.move(hoveredSpace);
+          gameLogic.gameAdvance(playerMove);
+        } 
+        //check to make sure the space the player is selection is not empty, 
+        //hoveredSpace will be null when the game starts and right after a move before the board has been hovered
+        if (
+          hoveredSpace == null 
+          || hoveredSpace.holding == null 
+          ) return;
 
-  boolean isPlayersPiece = ( hoverP.isWhite && gameLogic.whitesTurn ) || ( !hoverP.isWhite && !gameLogic.whitesTurn );
+        Piece hoverP = hoveredSpace.holding;
 
-  if (isPlayersPiece) {
-    //println(hoveredSpace.holding.toString() + ": " + hoveredSpace.holding.position.notation);
-    if (selectedPiece == hoveredSpace.holding) selectedPiece = null;
-    else selectedPiece = hoveredSpace.holding;
-  } else {
-    //println("That's not yours");
-  }
+        boolean isPlayersPiece = ( hoverP.isWhite && gameLogic.whitesTurn ) || ( !hoverP.isWhite && !gameLogic.whitesTurn );
+
+        if (isPlayersPiece) {
+          //println(hoveredSpace.holding.toString() + ": " + hoveredSpace.holding.position.notation);
+          if (selectedPiece == hoveredSpace.holding) selectedPiece = null;
+          else selectedPiece = hoveredSpace.holding;
+        } else {
+          //println("That's not yours");
+        }
+    
+    } else handleButtonClick();
 };
+
+public void handleButtonClick( ) {
+    String choice = getClickedButton();
+    
+   if (choice == "leftChoice")
+      choice = choices[0];
+   else if (choice =="rightChoice")
+      choice = choices[1];
+       
+  switch (choice) {
+    case "Queen":
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+      gameLogic.gameBoard.transformPiece(selectedPiece, "Q");
+      isChoosing = false;
+      selectedPiece = null;
+    break;
+    case "Knight":
+      //println("Knight Selected");
+      gameLogic.gameBoard.transformPiece(selectedPiece, "K");
+      isChoosing = false;
+      selectedPiece = null;
+    break;
+    case "Resign":
+      //Game Over
+      gameLogic.gameEnded = true;
+    break;
+    case "Continue":
+      isChoosing = false;
+    break;
+    case "resign":
+      choices[0] = "Resign";
+      choices[1] = "Continue";
+      isChoosing = true;
+    break;
+    default:
+      println("An Unaccounted For Choice Was Made");
+    break;  
+  }
+}
 
 
 
 public void renderHighlight (float transX, float transY, float rectWidth, float rectHeight) {
+
+  if (isChoosing) return;
 
   color highlightColor = gameLogic.whitesTurn ? color(186, 125, 180) : color(125, 182, 186); //light-tan: 255, 237, 194
 
@@ -467,11 +516,50 @@ public void renderChoices() {
   fill(bgColor);
   strokeWeight(1);
   noStroke();
-  rect(-boardSz/2, -boardSz/4, boardSz, boardSz/2);
-  textSize(boardSz/16);
+  rect(leftBtnX-width/2, leftBtnY-height/2, leftBtnWidth, leftBtnHeight);
+  rect(rightBtnX-width/2, rightBtnY-height/2, rightBtnWidth, rightBtnHeight);
+  textSize(boardSz/20);
   fill(textColor);
-  text(choices[0], -boardSz/3, 0);
-  text(choices[1], 0, 0);
+  text(choices[0], leftBtnX-width/2+rightBtnWidth*.25, boardSz/64);
+  text(choices[1], rightBtnX-width/2+rightBtnWidth*.25, boardSz/64);
 
   popMatrix();
+}
+
+public void setBtnPositions () {
+  resignBtnX = boardSz/2 + boardSz/16 + width/2;
+  resignBtnY = boardSz/2 + boardSz/10 + height/2;
+  resignBtnWidth = boardSz/4;
+  resignBtnHeight = boardSz/8;
+  
+  leftBtnX = -boardSz/2 + boardSz/16  + width/2;
+  leftBtnY =  - boardSz/8 + height/2; 
+  leftBtnWidth = boardSz/4 + boardSz/8;
+  leftBtnHeight = boardSz/4;
+  
+  rightBtnX = width/2 + boardSz/8 - boardSz/16 ;
+  rightBtnY = height/2 - boardSz/8;
+  rightBtnWidth = boardSz/4 + boardSz/8; 
+  rightBtnHeight = boardSz/4;
+  
+}
+
+public void renderResignBtn () {
+  fill(0);
+  noStroke();
+  rect(resignBtnX - width/2, resignBtnY - height/2, resignBtnWidth, resignBtnHeight);
+ 
+}
+
+public String getClickedButton () {
+
+  if (mouseX < leftBtnX + leftBtnWidth && mouseX > leftBtnX  && mouseY > leftBtnY && mouseY < leftBtnY+leftBtnHeight )
+    return "leftChoice";
+  else if (mouseX < rightBtnX + rightBtnWidth && mouseX > rightBtnX  && mouseY > rightBtnY && mouseY < rightBtnY+rightBtnHeight)
+    return "rightChoice";
+  else if (!isChoosing && mouseX < resignBtnX + resignBtnWidth && mouseX > resignBtnX  && mouseY > resignBtnY && mouseY < resignBtnY+resignBtnHeight )
+    return "resign";
+
+  return "none";
+
 }
