@@ -234,7 +234,8 @@ public void handleButtonClick( ) {
     break;
     case "Resign":
       //Game Over
-      gameLogic.gameEnded = true;
+      gameLogic.endGame();
+      isChoosing = false;
     break;
     case "Continue":
       isChoosing = false;
@@ -548,6 +549,10 @@ public void renderResignBtn () {
   fill(0);
   noStroke();
   rect(resignBtnX - width/2, resignBtnY - height/2, resignBtnWidth, resignBtnHeight);
+
+  textSize(boardSz/16);
+  fill(255);
+  text("Resign", resignBtnX - width/2 + spaceSz/6, resignBtnY - height/2 + spaceSz/1.5);
  
 }
 
