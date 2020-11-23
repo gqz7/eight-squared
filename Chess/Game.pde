@@ -10,18 +10,25 @@ public class Game {
     private boolean whitesTurn;
 
     public Game () {
-
-        turn = 1;
+      
+        initalizeGame();
+  
+        
+    }
+    
+    private void initalizeGame(){
+    
+       turn = 1;
         whitesTurn = true;
         player1 = new Player(true);
         player2 = new Player(false);
 
         gameBoard = new Board(player1, player2);
+
     }
 
     private void gameStart() {
         
-        //boolean gameEnded = false;
         turn = 1;
         whitesTurn = true;
         printCurrentGame();
@@ -38,13 +45,14 @@ public class Game {
         transitionClock = 0;
         hoveredSpace = null;
         
-        // printCurrentGame();
-        if (gameEnded = true) 
-         gameStart()
     }
     
     public void switchPlayers() {
       whitesTurn = !whitesTurn;
+    }
+    
+    public void endGame() {
+      initalizeGame();
     }
 
     public boolean getWhitesTurn () {
