@@ -8,7 +8,7 @@ public abstract class Piece implements Movable {
         position = startPosition;
         isInGame = true;
 
-        if (startPosition.row < 3)
+        if (startPosition.row < 5 )
             isWhite = true;
         else isWhite = false;
     }
