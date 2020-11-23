@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Player {
     private boolean isWhite;
-    private Piece[] pieces;
+    private List<Piece> pieces;
     private int totalPieces;
     private int playTime;
 
@@ -14,7 +14,7 @@ public class Player {
 
         totalPieces = 0;
         playTime = 0;
-        pieces = new Piece[16];
+        pieces = new ArrayList<Piece>();
 
     }
 
@@ -26,9 +26,8 @@ public class Player {
       playTime++;
     };
 
-    public void addPiece (Piece newPiece ) {
-        pieces[totalPieces] = newPiece;
-        totalPieces++;
+    public void addPiece ( Piece newPiece ) {
+        pieces.add(newPiece);
     }
     
     public List<Piece> getLostPieces() {
