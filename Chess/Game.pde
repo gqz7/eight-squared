@@ -31,7 +31,7 @@ public class Game {
         
         turn = 1;
         whitesTurn = true;
-        printCurrentGame();
+        //printCurrentGame();
         
     }
 
@@ -73,6 +73,12 @@ public class Game {
 
     public int getTurn() {
         return turn;
+    }
+    
+    public boolean isChecked () {
+    
+        Player p = whitesTurn ? player1 : player2;
+        return gameBoard.isInCheck(p);
     }
     
     public List<Piece> getLostPieces(boolean isWhite) {
