@@ -5,43 +5,38 @@ import java.util.List;
 
 public class Player {
     private boolean isWhite;
+    private boolean isInCheck;
     private List<Piece> pieces;
     private int totalPieces;
     private int playTime;
 
     public Player (boolean isWhite) {
         this.isWhite = isWhite;
-
+        isInCheck = false;
         totalPieces = 0;
         playTime = 0;
         pieces = new ArrayList<Piece>();
 
     }
 
-    public int getPlayTime () {
-      return playTime;
-    };
+    public void checkPlayer() {
+        isInCheck = true;
+    }
+
+    public void uncheckPlayer(){
+        isInCheck = false;
+    }
     
+    private boolean isKing (Piece p) {
+       return  p.getName().equals("King") ;
+    }
+
     public void advanceTime() { 
       playTime++;
     };
 
     public void addPiece ( Piece newPiece ) {
         pieces.add(newPiece);
-    }
-    
-    public List<Piece> getLostPieces() {
-      
-       List<Piece> lostPieces = new ArrayList();
-
-       for (Piece p : pieces) {
-           
-         if (!p.getIsInGame())
-           lostPieces.add(p);
-       
-       }
-       
-       return lostPieces;
     }
 
     @Override
@@ -67,4 +62,35 @@ public class Player {
 
         return CLI.numberIntQuestion("\nSelect A Move\nEnter a move's corresponding number", 1, possibleMoves.length+1 );
     }
+    
+        public List<Piece> getLostPieces() {
+      
+       List<Piece> lostPieces = new ArrayList();
+
+       for (Piece p : pieces) {
+           
+         if (!p.getIsInGame())
+           lostPieces.add(p);
+       
+       }
+       
+       return lostPieces;
+    }
+    
+    public int getPlayTime () {
+      return playTime;
+    };
+    
+    public boolean getCheckStatus () {return isInCheck;} 
+     
+    public boolean getIsWhite() {return isWhite;}
+  
+    public Piece getKing() {
+      
+        for (Piece p : pieces) {
+          if ( isKing(p) ) return p;
+        }
+        return null;
+    }
+    
 }
