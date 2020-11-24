@@ -184,7 +184,7 @@ public void mousePressed() {
       && ( mouseY <= height/2 + boardSz/2 && mouseY >= height/2 - boardSz/2 )) )
      {
         if ( Arrays.asList(possibleMoves).contains(hoveredSpace) ) {
-          println( selectedPiece.getName() + " to " + hoveredSpace.notation);
+          // println( selectedPiece.getName() + " to " + hoveredSpace.notation);
 
           ChessTurn playerMove = selectedPiece.move(hoveredSpace);
           gameLogic.gameAdvance(playerMove);
