@@ -82,9 +82,9 @@ void draw() {
 public void drawBoard( boolean isBlack) {
 
   possibleMoves = 
-    selectedPiece == null 
+    (selectedPiece == null || possibleMoves == new BoardPlace[0])
     ? new BoardPlace[0] 
-    : selectedPiece.getPossibleMoves(gameLogic.gameBoard);
+    : gameLogic.filterMoves(selectedPiece.getPossibleMoves(gameLogic.gameBoard));
 
   //for ( BoardPlace p : possibleMoves ) print(p.notation + ", ");
   //println();
