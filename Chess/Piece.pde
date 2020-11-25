@@ -17,6 +17,8 @@ public abstract class Piece implements Movable {
     
     public boolean getIsWhite() { return isWhite; };
     
+    public BoardPlace getPosition() { return position; };
+    
     @Override
     abstract public String toString();
 

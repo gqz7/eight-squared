@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 public class Game {
 
@@ -10,21 +11,15 @@ public class Game {
     private boolean whitesTurn;
 
     public Game () {
-      
-        initalizeGame();
-  
-        
+        initalizeGame();      
     }
     
-    private void initalizeGame(){
-    
+    private void initalizeGame(){  
        turn = 1;
         whitesTurn = true;
         player1 = new Player(true);
         player2 = new Player(false);
-
         gameBoard = new Board(player1, player2);
-
     }
 
     private void gameAdvance( ChessTurn playersTurn ) {
@@ -36,6 +31,8 @@ public class Game {
         transitionGraceSecond = true;
         transitionClock = 0;
         hoveredSpace = null;
+        
+        println(isChecked());
         
     }
     
@@ -68,13 +65,19 @@ public class Game {
     }
     
     public boolean isChecked () {
-    
-        Player p = whitesTurn ? player1 : player2;
-        King k = (King) p.getKing();
+      
+        Player playingPlayers  = whitesTurn ? player1 : player2;
+        Player opposingPlayers = !whitesTurn ? player1 : player2;  
+        BoardPlace kingsPlace = playingPlayers.getKing().getPosition();
+        List<Piece> opposingPieces = opposingPlayers.getAvailablePieces();
         
-        println(k);
         
-        return gameBoard.isInCheck(whitesTurn, k);
+           //List<BoardPlace> possibleMoves = Arrays.asList(p.getPossibleMoves(gameBoard));
+           //if (possibleMoves.contains(kingsPlace)) return true;
+        for ( Piece p : opposingPieces )
+           if ( Arrays.asList(p.getPossibleMoves(gameBoard)).contains(kingsPlace) ) return true; 
+
+        return false;
         
     }
     

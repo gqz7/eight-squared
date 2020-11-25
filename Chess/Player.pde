@@ -63,18 +63,22 @@ public class Player {
         return CLI.numberIntQuestion("\nSelect A Move\nEnter a move's corresponding number", 1, possibleMoves.length+1 );
     }
     
-        public List<Piece> getLostPieces() {
-      
+    public List<Piece> getLostPieces() {
        List<Piece> lostPieces = new ArrayList();
-
        for (Piece p : pieces) {
-           
          if (!p.getIsInGame())
            lostPieces.add(p);
-       
        }
-       
        return lostPieces;
+    }
+
+    public List<Piece> getAvailablePieces() {
+       List<Piece> availablePieces = new ArrayList();
+       for (Piece p : pieces) {
+         if (p.getIsInGame())
+           availablePieces.add(p);
+       }
+       return availablePieces;
     }
     
     public int getPlayTime () {

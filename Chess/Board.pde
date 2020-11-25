@@ -154,11 +154,4 @@ public class Board {
         return gameSpace2D;
     }
 
-    public boolean isInCheck (boolean isWhite, King king) {
-      
-      
-        
-        return false;
-    }
-
 }
