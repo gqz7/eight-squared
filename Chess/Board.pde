@@ -16,6 +16,11 @@ public class Board {
         gameSpace2D = boardData[1];
 
     }
+    
+    public Board(BoardPlace[][] gameSpace) { 
+      gameSpace2D = gameSpace;
+      gameSpace1D = new BoardPlace[1];
+    }
 
     private BoardPlace[][][] initializeBoard (Player player1, Player player2) {
         BoardPlace[] startingBoard1D = new BoardPlace[totalPlaces];
