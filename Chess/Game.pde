@@ -66,11 +66,10 @@ public class Game {
     
     public boolean isChecked () {
       
-        Player playingPlayers  = whitesTurn ? player1 : player2;
-        Player opposingPlayers = !whitesTurn ? player1 : player2;  
-        BoardPlace kingsPlace = playingPlayers.getKing().getPosition();
-        List<Piece> opposingPieces = opposingPlayers.getAvailablePieces();
-        
+        Player playingPlayer  = whitesTurn ? player1 : player2;
+        Player opposingPlayer = !whitesTurn ? player1 : player2;  
+        BoardPlace kingsPlace = playingPlayer.getKing().getPosition();
+        List<Piece> opposingPieces = opposingPlayer.getAvailablePieces();
         
            //List<BoardPlace> possibleMoves = Arrays.asList(p.getPossibleMoves(gameBoard));
            //if (possibleMoves.contains(kingsPlace)) return true;
@@ -79,6 +78,11 @@ public class Game {
 
         return false;
         
+    }
+    
+    public BoardPlace[] filterMoves (BoardPlace[] possibleMoves) {
+    
+      return new BoardPlace[0];
     }
     
     public List<Piece> getLostPieces(boolean isWhite) {
