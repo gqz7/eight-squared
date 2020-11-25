@@ -62,18 +62,18 @@ public class Game {
         return turn;
     }
     
-    public boolean isChecked ( Board b) {
+    public boolean isChecked ( Board b, BoardPlace kingsPosition ) {
       
-        Player playingPlayer  = whitesTurn ? player1 : player2;
-        Player opposingPlayer = !whitesTurn ? player1 : player2;  
-        BoardPlace kingsPlace = playingPlayer.getKing().getPosition();
+        Player opposingPlayer = !whitesTurn ? player1 : player2; 
         List<Piece> opposingPieces = opposingPlayer.getAvailablePieces();
         
-           //List<BoardPlace> possibleMoves = Arrays.asList(p.getPossibleMoves(gameBoard));
-           //if (possibleMoves.contains(kingsPlace)) return true;
-        for ( Piece p : opposingPieces )
-           if ( Arrays.asList(p.getPossibleMoves(b)).contains(kingsPlace) ) return true; 
-
+        for ( Piece p : opposingPieces ) {
+           if ( 
+               Arrays.asList(p.getPossibleMoves(b)).contains(kingsPosition) ) {
+             return true; 
+           }
+        }
+        
         return false;
         
     }
@@ -81,20 +81,30 @@ public class Game {
     public BoardPlace[] filterMoves (Piece moving) {
       BoardPlace[] possibleMovesUnfilltered = moving.getPossibleMoves(gameBoard);
       
+       Player playingPlayer = whitesTurn ? player1 : player2;
       List<BoardPlace> filtered = new ArrayList<BoardPlace>();
-      
+      Piece king = playingPlayer.getKing();
+      int kingRow = king.position.row;
+      int kingCol = king.position.columnInt;
+      boolean movingKing = moving == king;
       for ( BoardPlace space : possibleMovesUnfilltered ) {
+       
+        if (movingKing) {
+          kingRow = space.row;
+          kingCol = space.columnInt;
+        }
         
         Board testingBoard = new Board(gameBoard.gameSpace2D);
-        
+        BoardPlace kingPosition = testingBoard.getSpace(kingRow, kingCol);
         BoardPlace testSpace = testingBoard.getSpace( space.row, space.columnInt );
         Piece testMoving = testingBoard.getSpace( moving.position.row, moving.position.columnInt ).holding;
         
         testingBoard.takeTurn( new ChessTurn(testMoving, testSpace), true );
         
-        if (!isChecked(testingBoard)) {
+        if (!isChecked(testingBoard, kingPosition)) {
            filtered.add(space);
         }
+        
       }
       return filtered.toArray(new BoardPlace[0]);
     }
