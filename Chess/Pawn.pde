@@ -10,6 +10,13 @@ public class Pawn extends Piece {
         name = "Pawn";
 
     }
+    
+    @Override
+    public Piece clone(BoardPlace pos) {
+      
+      return new Pawn(pos);
+    
+    }
 
     @Override
     public ChessTurn move(BoardPlace moving) {

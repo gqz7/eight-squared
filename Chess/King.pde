@@ -10,6 +10,12 @@ public class King extends Piece {
         name = "King";
 
     }
+    
+    @Override
+    public Piece clone(BoardPlace pos) {
+      return new King(pos);
+    }
+    
     @Override
     public ChessTurn move(BoardPlace moving) {
         return new ChessTurn(this, moving);

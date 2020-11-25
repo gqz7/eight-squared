@@ -10,6 +10,12 @@ public class Bishop extends Piece {
         name = "Bishop";
 
     }
+    
+    
+    @Override
+    public Piece clone(BoardPlace pos) {
+      return new Bishop(pos);
+    }
 
     @Override
     public String toString() {

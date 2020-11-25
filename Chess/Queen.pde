@@ -9,6 +9,12 @@ public class Queen extends Piece {
         super(startPos);
         name = "Queen";
     }
+    
+        
+    @Override
+    public Piece clone(BoardPlace pos) {
+      return new Queen(pos);
+    }
 
     @Override
     public ChessTurn move(BoardPlace moving) {

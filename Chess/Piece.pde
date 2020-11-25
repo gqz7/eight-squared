@@ -25,5 +25,7 @@ public abstract class Piece implements Movable {
     abstract public String getName();
 
     abstract public BoardPlace[] getPossibleMoves( Board board );
-
+    
+    abstract public Piece clone(BoardPlace place);
+    
 }
