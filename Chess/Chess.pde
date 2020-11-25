@@ -13,6 +13,7 @@ Game gameLogic; //where all the game data is stored
 BoardPlace hoveredSpace;
 
 BoardPlace[] possibleMoves;
+BoardPlace[] noMoves = new BoardPlace[0];
 
 Piece selectedPiece;
 
@@ -35,6 +36,7 @@ boolean transitioning = false;
 boolean transitionGraceSecond = false;
 int transitionClock = 0;
 
+boolean switchedPieces = false;
 boolean isChoosing = false;
 
 color whiteColor = color(255, 247, 227);
@@ -80,14 +82,14 @@ void draw() {
 }
   
 public void drawBoard( boolean isBlack) {
-
+  
   possibleMoves = 
-    (selectedPiece == null || possibleMoves == new BoardPlace[0])
-    ? new BoardPlace[0] 
-    : gameLogic.filterMoves(selectedPiece.getPossibleMoves(gameLogic.gameBoard));
+    selectedPiece == null
+      ? noMoves : switchedPieces 
+        ?  selectedPiece.getPossibleMoves(gameLogic.gameBoard) : possibleMoves;
 
-  //for ( BoardPlace p : possibleMoves ) print(p.notation + ", ");
-  //println();
+//gameLogic.filterMoves(selectedPiece.getPossibleMoves(gameLogic.gameBoard));
+  if (switchedPieces) switchedPieces = false;
 
   boolean startsBlack = isBlack;
 
@@ -203,9 +205,10 @@ public void mousePressed() {
         if (isPlayersPiece) {
           //println(hoveredSpace.holding.toString() + ": " + hoveredSpace.holding.position.notation);
           if (selectedPiece == hoveredSpace.holding) selectedPiece = null;
-          else selectedPiece = hoveredSpace.holding;
-        } else {
-          //println("That's not yours");
+          else {
+            switchedPieces = true;
+            selectedPiece = hoveredSpace.holding;
+          } 
         }
     
     } else handleButtonClick();
