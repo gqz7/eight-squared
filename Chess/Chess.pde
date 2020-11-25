@@ -84,11 +84,12 @@ void draw() {
 public void drawBoard( boolean isBlack) {
   
   possibleMoves = 
-    selectedPiece == null
-      ? noMoves : switchedPieces 
-        ?  selectedPiece.getPossibleMoves(gameLogic.gameBoard) : possibleMoves;
+    selectedPiece == null 
+      ? noMoves 
+        : switchedPieces 
+          ? gameLogic.filterMoves(selectedPiece)
+            : possibleMoves;
 
-//gameLogic.filterMoves(selectedPiece.getPossibleMoves(gameLogic.gameBoard));
   if (switchedPieces) switchedPieces = false;
 
   boolean startsBlack = isBlack;

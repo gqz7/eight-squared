@@ -7,7 +7,7 @@ public class Board {
     final static int totalRows = 8;
     final static int totalColumns = 8;
 
-    private final BoardPlace[] gameSpace1D;
+    public final BoardPlace[] gameSpace1D;
     public final BoardPlace[][] gameSpace2D;
 
     public Board(Player player1, Player player2) {
@@ -17,9 +17,9 @@ public class Board {
 
     }
     
-    public Board(BoardPlace[][] gameSpace) { 
-      gameSpace2D = gameSpace;
-      gameSpace1D = new BoardPlace[1];
+    public Board(BoardPlace[][] gameSpace2, BoardPlace[] gameSpace1) { 
+      gameSpace2D = gameSpace2.clone();
+      gameSpace1D = gameSpace1.clone();
     }
 
     private BoardPlace[][][] initializeBoard (Player player1, Player player2) {

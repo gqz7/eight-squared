@@ -32,7 +32,7 @@ public class Game {
         transitionClock = 0;
         hoveredSpace = null;
         
-        println(isChecked());
+        println(isChecked(gameBoard));
         
     }
     
@@ -64,7 +64,7 @@ public class Game {
         return turn;
     }
     
-    public boolean isChecked () {
+    public boolean isChecked ( Board b) {
       
         Player playingPlayer  = whitesTurn ? player1 : player2;
         Player opposingPlayer = !whitesTurn ? player1 : player2;  
@@ -74,15 +74,29 @@ public class Game {
            //List<BoardPlace> possibleMoves = Arrays.asList(p.getPossibleMoves(gameBoard));
            //if (possibleMoves.contains(kingsPlace)) return true;
         for ( Piece p : opposingPieces )
-           if ( Arrays.asList(p.getPossibleMoves(gameBoard)).contains(kingsPlace) ) return true; 
+           if ( Arrays.asList(p.getPossibleMoves(b)).contains(kingsPlace) ) return true; 
 
         return false;
         
     }
     
-    public BoardPlace[] filterMoves (BoardPlace[] possibleMoves) {
+    public BoardPlace[] filterMoves (Piece moving) {
+      
+      BoardPlace[] possibleMovesUnfilltered = moving.getPossibleMoves(gameBoard);
+      
+      List<BoardPlace> filtered = new ArrayList<BoardPlace>();
+      
+      for ( BoardPlace space : possibleMovesUnfilltered ) {
+        
+        Board testingBoard = new Board(gameBoard.gameSpace2D, gameBoard.gameSpace1D);
+        
+        testingBoard.takeTurn( new ChessTurn(moving, space));
+        
+        if (!isChecked(testingBoard)) filtered.add(space);
+      
+      }
     
-      return new BoardPlace[0];
+      return filtered.toArray(new BoardPlace[0]);
     }
     
     public List<Piece> getLostPieces(boolean isWhite) {
