@@ -8,12 +8,18 @@ public class Rook extends Piece {
         super(startPos);
         name = "Rook";
     }
-        
-    @Override
-    public Piece clone(BoardPlace pos) {
-      return new Rook(pos);
+    
+    public Rook (BoardPlace startPos, boolean isWhite) {
+        super(startPos, isWhite);
+        name = "Rook";
+
     }
-   
+    
+    @Override
+    public Piece clone(BoardPlace pos, boolean isWhite) {
+      return new Rook(pos, isWhite);
+    }
+
     @Override
     public ChessTurn move(BoardPlace moving) {
         return new ChessTurn(this, moving);

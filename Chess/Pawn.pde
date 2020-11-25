@@ -11,11 +11,15 @@ public class Pawn extends Piece {
 
     }
     
-    @Override
-    public Piece clone(BoardPlace pos) {
-      
-      return new Pawn(pos);
+    public Pawn (BoardPlace startPos, boolean isWhite) {
+        super(startPos, isWhite);
+        name = "Pawn";
+
+    }
     
+    @Override
+    public Piece clone(BoardPlace pos, boolean isWhite) {
+      return new Pawn(pos, isWhite);
     }
 
     @Override

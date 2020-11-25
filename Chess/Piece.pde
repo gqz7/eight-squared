@@ -13,6 +13,12 @@ public abstract class Piece implements Movable {
         else isWhite = false;
     }
     
+    public Piece( BoardPlace startPosition, boolean isWhite) {
+        position = startPosition;
+        isInGame = true;
+        this.isWhite = isWhite;
+    }
+    
     public boolean getIsInGame() { return isInGame; };
     
     public boolean getIsWhite() { return isWhite; };
@@ -26,6 +32,6 @@ public abstract class Piece implements Movable {
 
     abstract public BoardPlace[] getPossibleMoves( Board board );
     
-    abstract public Piece clone(BoardPlace place);
+    abstract public Piece clone(BoardPlace place, boolean isWhite);
     
 }

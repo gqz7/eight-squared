@@ -11,12 +11,17 @@ public class Bishop extends Piece {
 
     }
     
+    public Bishop (BoardPlace startPos, boolean isWhite) {
+        super(startPos, isWhite);
+        name = "Bishop";
+
+    }
     
     @Override
-    public Piece clone(BoardPlace pos) {
-      return new Bishop(pos);
+    public Piece clone(BoardPlace pos, boolean isWhite) {
+      return new Bishop(pos, isWhite);
     }
-
+    
     @Override
     public String toString() {
         return (this.getIsWhite() ? "W" : "B") + "B";

@@ -10,11 +10,18 @@ public class Queen extends Piece {
         name = "Queen";
     }
     
-        
-    @Override
-    public Piece clone(BoardPlace pos) {
-      return new Queen(pos);
+    
+    public Queen (BoardPlace startPos, boolean isWhite) {
+        super(startPos, isWhite);
+        name = "Queen";
+
     }
+    
+    @Override
+    public Piece clone(BoardPlace pos, boolean isWhite) {
+      return new Queen(pos, isWhite);
+    }
+
 
     @Override
     public ChessTurn move(BoardPlace moving) {
