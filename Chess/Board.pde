@@ -154,9 +154,10 @@ public class Board {
         return gameSpace2D;
     }
 
-    public boolean isInCheck (Player player) {
+    public boolean isInCheck (boolean isWhite, King king) {
+      
+      
         
-        Piece k = player.getKing();
         return false;
     }
 

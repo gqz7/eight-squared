@@ -53,7 +53,7 @@ void setup() {
   setBtnPositions();
 
   gameLogic = new Game();
-  gameLogic.gameStart();
+  gameLogic.initalizeGame();
 }
 
 //loop function that runs on a loop 
@@ -246,7 +246,7 @@ public void handleButtonClick( ) {
       isChoosing = true;
     break;
     default:
-      println("An Unaccounted For Choice Was Made");
+      //println("An Unaccounted For Choice Was Made");
     break;  
   }
 }

@@ -27,14 +27,6 @@ public class Game {
 
     }
 
-    private void gameStart() {
-        
-        turn = 1;
-        whitesTurn = true;
-        //printCurrentGame();
-        
-    }
-
     private void gameAdvance( ChessTurn playersTurn ) {
         gameBoard.takeTurn(playersTurn);
 
@@ -78,7 +70,12 @@ public class Game {
     public boolean isChecked () {
     
         Player p = whitesTurn ? player1 : player2;
-        return gameBoard.isInCheck(p);
+        King k = (King) p.getKing();
+        
+        println(k);
+        
+        return gameBoard.isInCheck(whitesTurn, k);
+        
     }
     
     public List<Piece> getLostPieces(boolean isWhite) {
