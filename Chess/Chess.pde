@@ -89,6 +89,7 @@ public void drawBoard( boolean isBlack) {
         : switchedPieces 
           ? gameLogic.filterMoves(selectedPiece)
             : possibleMoves;
+            
 
   if (switchedPieces) switchedPieces = false;
 

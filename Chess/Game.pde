@@ -23,7 +23,7 @@ public class Game {
     }
 
     private void gameAdvance( ChessTurn playersTurn ) {
-        gameBoard.takeTurn(playersTurn);
+        gameBoard.takeTurn(playersTurn, false);
 
         turn++;
         playerChanged = true;
@@ -31,8 +31,6 @@ public class Game {
         transitionGraceSecond = true;
         transitionClock = 0;
         hoveredSpace = null;
-        
-        println(isChecked(gameBoard));
         
     }
     
@@ -81,23 +79,26 @@ public class Game {
     }
     
     public BoardPlace[] filterMoves (Piece moving) {
-      
       BoardPlace[] possibleMovesUnfilltered = moving.getPossibleMoves(gameBoard);
       
       List<BoardPlace> filtered = new ArrayList<BoardPlace>();
       
       for ( BoardPlace space : possibleMovesUnfilltered ) {
         
-        Board testingBoard = new Board(gameBoard.gameSpace2D, gameBoard.gameSpace1D);
+        Board testingBoard = new Board(gameBoard.gameSpace2D);
         
-        testingBoard.takeTurn( new ChessTurn(moving, space));
+        BoardPlace testSpace = testingBoard.getSpace( space.row, space.columnInt );
+        Piece testMoving = testingBoard.getSpace( moving.position.row, moving.position.columnInt ).holding;
         
-        if (!isChecked(testingBoard)) filtered.add(space);
-      
+        testingBoard.takeTurn( new ChessTurn(testMoving, testSpace), true );
+        
+        if (!isChecked(testingBoard)) {
+           filtered.add(space);
+        }
       }
-    
       return filtered.toArray(new BoardPlace[0]);
     }
+    
     
     public List<Piece> getLostPieces(boolean isWhite) {
     

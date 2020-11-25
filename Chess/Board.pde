@@ -1,7 +1,7 @@
 
 import java.util.Arrays;
 
-public class Board {
+public class Board implements Cloneable {
 
     final static int totalPlaces = 64;
     final static int totalRows = 8;
@@ -17,9 +17,10 @@ public class Board {
 
     }
     
-    public Board(BoardPlace[][] gameSpace2, BoardPlace[] gameSpace1) { 
-      gameSpace2D = gameSpace2.clone();
-      gameSpace1D = gameSpace1.clone();
+    public Board(BoardPlace[][] gameSpace2) { 
+      gameSpace1D = new BoardPlace[totalPlaces];
+      gameSpace2D = new BoardPlace[totalRows][totalColumns];
+      this.clone(gameSpace2);
     }
 
     private BoardPlace[][][] initializeBoard (Player player1, Player player2) {
@@ -97,7 +98,7 @@ public class Board {
         return currentGameBoard.toString();
     }
 
-    public void takeTurn(ChessTurn playersTurn) {
+    public void takeTurn(ChessTurn playersTurn, boolean testing) {
       
         Piece movingPiece = playersTurn.movingPiece;
         BoardPlace spaceMovingTo = playersTurn.moveTo;
@@ -114,14 +115,18 @@ public class Board {
         }
         spaceMovingTo.holding = movingPiece;
         
-        if ( (movingPiece.toString().equals("WP") && spaceMovingTo.row == 8) 
-            || (movingPiece.toString().equals("BP") && spaceMovingTo.row == 1) )
-        {   
-          choices[0] = "Knight";
-          choices[1] = "Queen";
-          isChoosing = true;     
-        } else 
-            selectedPiece = null;
+        if (!testing) {
+          if ( (movingPiece.toString().equals("WP") && spaceMovingTo.row == 8) 
+              || (movingPiece.toString().equals("BP") && spaceMovingTo.row == 1) )
+          {   
+            choices[0] = "Knight";
+            choices[1] = "Queen";
+            isChoosing = true;     
+          } else 
+              selectedPiece = null;
+        
+        }
+        
         
         //update the board
         gameSpace2D[oldSpace.row-1][oldSpace.columnInt-1] = oldSpace;
@@ -158,5 +163,30 @@ public class Board {
     public BoardPlace[][] getBoard2D () {
         return gameSpace2D;
     }
+    
+    public void clone(BoardPlace[][] gs2D) {
+      
+      int count = 0;
+      
+      for ( int i = 0; i < gs2D.length; i++ ) {
+        BoardPlace[] row = gs2D[i];
+      
+        for ( int j = 0; j < gs2D.length; j++ ) {
+           BoardPlace space = row[j];
+           
+           BoardPlace clonedSpace = new BoardPlace(space.row, space.columnInt);
+           Piece clonedPiece = space.holding;
+           clonedSpace.holding = clonedPiece != null ? clonedPiece.clone(clonedSpace) : null;
+           //println(space.holding.clone(clonedSpace));
+         
+           gameSpace2D[i][j] = clonedSpace;
+           gameSpace1D[count++] = clonedSpace;        
+        }
+      
+      }
+      
+      
+    }
+    
 
 }
