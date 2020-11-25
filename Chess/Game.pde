@@ -64,8 +64,11 @@ public class Game {
     
     public boolean isChecked ( Board b, BoardPlace kingsPosition ) {
       
-        Player opposingPlayer = !whitesTurn ? player1 : player2; 
-        List<Piece> opposingPieces = opposingPlayer.getAvailablePieces();
+        List<Piece> opposingPieces = new ArrayList<Piece>();
+
+        for ( BoardPlace s : b.gameSpace1D ) {
+          if (s.holding != null && s.holding.getIsWhite() != whitesTurn) opposingPieces.add(s.holding);
+        }
         
         for ( Piece p : opposingPieces ) {
            if ( 
@@ -81,7 +84,7 @@ public class Game {
     public BoardPlace[] filterMoves (Piece moving) {
       BoardPlace[] possibleMovesUnfilltered = moving.getPossibleMoves(gameBoard);
       
-       Player playingPlayer = whitesTurn ? player1 : player2;
+      Player playingPlayer = whitesTurn ? player1 : player2;
       List<BoardPlace> filtered = new ArrayList<BoardPlace>();
       Piece king = playingPlayer.getKing();
       int kingRow = king.position.row;
@@ -100,7 +103,7 @@ public class Game {
         Piece testMoving = testingBoard.getSpace( moving.position.row, moving.position.columnInt ).holding;
         
         testingBoard.takeTurn( new ChessTurn(testMoving, testSpace), true );
-        
+       
         if (!isChecked(testingBoard, kingPosition)) {
            filtered.add(space);
         }

@@ -24,6 +24,8 @@ int prevSecond = second();
 
 int boardSz = 600; //size of board width/height
 
+int tranistionPeriod = 5;
+  
 int spaceSz = boardSz / 8 ;
 
 int[][][] spacePos = new int[8][8][2];
@@ -86,9 +88,9 @@ public void drawBoard( boolean isBlack) {
   possibleMoves = 
     selectedPiece == null 
       ? noMoves 
-        : switchedPieces 
-          ? gameLogic.filterMoves(selectedPiece)
-            : possibleMoves;
+      : switchedPieces 
+        ? gameLogic.filterMoves(selectedPiece)
+        : possibleMoves;
             
 
   if (switchedPieces) switchedPieces = false;
@@ -188,8 +190,6 @@ public void mousePressed() {
       && ( mouseY <= height/2 + boardSz/2 && mouseY >= height/2 - boardSz/2 )) )
      {
         if ( Arrays.asList(possibleMoves).contains(hoveredSpace) ) {
-          // println( selectedPiece.getName() + " to " + hoveredSpace.notation);
-
           ChessTurn playerMove = selectedPiece.move(hoveredSpace);
           gameLogic.gameAdvance(playerMove);
         } 
@@ -294,8 +294,6 @@ public void renderPossibleMove (float transX, float transY, float rectWidth, flo
 
 public void renderTransition() {
 
-  int tranistionPeriod = 50;
-
   fill(17, 22, 23);
   stroke(17, 22, 23);
   float rectX = -boardSz/2 - spaceSz;
@@ -322,16 +320,8 @@ public void renderTransition() {
 }
 
 public void renderPiece (Piece renderingPiece) {
-
-  //if (renderingPiece.isWhite) 
-  //  fill (200, 0, 200);
-  //else 
-  //  fill (0, 200, 200);
-
-  //text(renderingPiece.getName(), boardSz/75, boardSz/12);
+  
   String imgName = (renderingPiece.isWhite ? "w" : "b" ) + renderingPiece.getName();
-
-  // println(pieceImagesMap);
 
   image( pieceImagesMap.get(imgName), 0, 0, spaceSz, spaceSz);
 }

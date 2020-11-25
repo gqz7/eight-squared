@@ -176,9 +176,8 @@ public class Board implements Cloneable {
            
            BoardPlace clonedSpace = new BoardPlace(space.row, space.columnInt);
            Piece clonedPiece = space.holding;
-           clonedSpace.holding = clonedPiece != null ? clonedPiece.clone(clonedSpace) : null;
-           //println(space.holding.clone(clonedSpace));
-         
+           clonedSpace.holding = clonedPiece != null ? clonedPiece.clone(clonedSpace, clonedPiece.getIsWhite()) : null;
+      
            gameSpace2D[i][j] = clonedSpace;
            gameSpace1D[count++] = clonedSpace;        
         }
