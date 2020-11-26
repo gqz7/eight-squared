@@ -11,10 +11,13 @@ public class Player {
     private boolean isWhite;
     private Piece[] pieces;
     private int totalPieces;
+    private int clearBtnX;
+    private int clearBtnY;
 
-    public Player (boolean isWhite) {
+    public Player (boolean isWhite, int clearBtnX, int clearBtnY ) {
         this.isWhite = isWhite;
-
+        this.clearBtnX = clearBtnX;
+        this.clearBtnY = clearBtnY;
         totalPieces = 0;
         pieces = new Piece[16];
 
@@ -34,7 +37,10 @@ public class Player {
         return playersPieces;
     }
 
-    public Turn makeTurn( Board board) {
+    public Turn makeTurn( Board board, int turns ) {
+        if (clearBtnX != 0 && clearBtnY != 0 ) PlayerDisplay.clearScreen(clearBtnX, clearBtnY);
+
+
 
         Object[] filtered = Arrays.stream(pieces).filter( piece -> {
             if ( piece == null) return false;
@@ -48,11 +54,8 @@ public class Player {
                 playablePieces[i] = (Piece) filtered[i];
             }
         }
-        System.out.println("Select A Piece To Move...");
-        for (int i = 0; i < playablePieces.length; i++) {
-            Piece p = playablePieces[i];
-            System.out.println(i+1 + ") " + p.getName() + ", " + p.position.notation);
-        }
+        PlayerDisplay.printCurrentGame(board, isWhite, turns);
+        displayPieces(playablePieces);
         while (true) {
             int pieceInt = selectPiece(playablePieces.length);
             BoardPlace[] possibleMoves = playablePieces[pieceInt-1].getPossibleMoves( board );
@@ -62,6 +65,18 @@ public class Player {
                     return new Turn(playablePieces[pieceInt-1], possibleMoves[moveInt-1]);
             }
             System.out.println("\nThat piece does not have any possible moves, please select another piece.");
+        }
+    }
+
+    private void displayPieces(Piece[] playablePieces) {
+        System.out.println("Select A Piece To Move...");
+        int pieceCount = 1;
+        for (int i = 0; i < playablePieces.length; i++) {
+            Piece p = playablePieces[i];
+            String pieceText = i+1 + ") " + p.getName() + ", " + p.position.notation;
+            String spacer = " ".repeat(18 - pieceText.length());
+            System.out.print(pieceText + spacer );
+            if (pieceCount++ % 4 == 0) System.out.println();
         }
     }
 
