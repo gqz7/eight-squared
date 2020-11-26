@@ -31,7 +31,10 @@ public class Game {
         transitionGraceSecond = true;
         transitionClock = 0;
         hoveredSpace = null;
+        BoardPlace kingSpace = !whitesTurn ? player1.getKing().position : player2.getKing().position;
+        playerInCheck = isChecked(gameBoard, kingSpace, !whitesTurn); 
         
+        if (playerInCheck && isCheckMate()) endGame();
     }
     
     public void switchPlayers() {
@@ -39,7 +42,7 @@ public class Game {
     }
     
     public void endGame() {
-      initalizeGame();
+      playerLost = true;
     }
 
     public boolean getWhitesTurn () {
@@ -62,18 +65,29 @@ public class Game {
         return turn;
     }
     
-    public boolean isChecked ( Board b, BoardPlace kingsPosition ) {
+    public boolean isCheckMate() {
+      Player playerInCheck = !whitesTurn ? player1 : player2;
+      List<Piece> pieces = playerInCheck.getAvailablePieces();
+      
+      for ( Piece p : pieces )
+        if (filterMoves(p, !whitesTurn).length != 0) return false;
+       
+      return true;
+      
+    }
+    
+    public boolean isChecked ( Board b, BoardPlace kingsPosition, boolean testingWhite ) {
       
         List<Piece> opposingPieces = new ArrayList<Piece>();
 
         for ( BoardPlace s : b.gameSpace1D ) {
-          if (s.holding != null && s.holding.getIsWhite() != whitesTurn) opposingPieces.add(s.holding);
+          if (s.holding != null && s.holding.getIsWhite() != testingWhite) opposingPieces.add(s.holding);
         }
         
         for ( Piece p : opposingPieces ) {
            if ( 
                Arrays.asList(p.getPossibleMoves(b)).contains(kingsPosition) ) {
-             return true; 
+               return true; 
            }
         }
         
@@ -81,10 +95,10 @@ public class Game {
         
     }
     
-    public BoardPlace[] filterMoves (Piece moving) {
+    public BoardPlace[] filterMoves (Piece moving, boolean whitesPlaying) {
       BoardPlace[] possibleMovesUnfilltered = moving.getPossibleMoves(gameBoard);
       
-      Player playingPlayer = whitesTurn ? player1 : player2;
+      Player playingPlayer = whitesPlaying ? player1 : player2;
       List<BoardPlace> filtered = new ArrayList<BoardPlace>();
       Piece king = playingPlayer.getKing();
       int kingRow = king.position.row;
@@ -104,7 +118,7 @@ public class Game {
         
         testingBoard.takeTurn( new ChessTurn(testMoving, testSpace), true );
        
-        if (!isChecked(testingBoard, kingPosition)) {
+        if (!isChecked(testingBoard, kingPosition, king.getIsWhite())) {
            filtered.add(space);
         }
         
