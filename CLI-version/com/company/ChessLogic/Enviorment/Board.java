@@ -89,10 +89,10 @@ public class Board {
               !isBlackMoving && i < gameSpace2D.length || isBlackMoving && i > -1;
               i += increaseBy
         ) {
-            currentGameBoard.append(i+1).append("| ").append(Arrays.toString(gameSpace2D[i])).append("|\n");
+            currentGameBoard.append("\t").append(i+1).append("| ").append(Arrays.toString(gameSpace2D[i])).append("|\n");
         }
 
-        currentGameBoard.append("   | A | B | C | D | E | F | G | H |");
+        currentGameBoard.append("\t   | A | B | C | D | E | F | G | H |");
 
         return currentGameBoard.toString();
     }
