@@ -22,9 +22,10 @@ String imageDirectoryPath = "./images/";
 
 int prevSecond = second();
 
-int boardSz = 600; //size of board width/height
+int boardSz = 600; //set to 1000 for 4K resolution //size of board width/height
 
-int tranistionPeriod = 5;
+int tranistionPeriod = 1;//35;
+int endGamePeriod = 300;
   
 int spaceSz = boardSz / 8 ;
 
@@ -33,9 +34,11 @@ int[][][] spacePos = new int[8][8][2];
 String[] choices = new String[] {"Knight", "Queen"};
 
 boolean playerChanged = true;
-
+boolean playerInCheck = false;
+boolean playerLost = false;
 boolean transitioning = false;
 boolean transitionGraceSecond = false;
+int endGameClock = 0;
 int transitionClock = 0;
 
 boolean switchedPieces = false;
@@ -50,7 +53,7 @@ int rightBtnX, rightBtnY, rightBtnWidth, rightBtnHeight;
 
 void setup() {
   //set canvas size
-  size(1280, 900); //w: 3840 - 1920 h: 2160 - 1080
+  size(1920, 1080); //w: 3840 - 1920 h: 2160 - 1080
 
   noStroke();
   loadImages();
@@ -80,7 +83,56 @@ void draw() {
   
   if ( isChoosing ) renderChoices();
   else if (transitioning) renderTransition();
-  else renderResignBtn();
+  else if (playerLost) renderLostScreen();
+  else renderExtras();
+
+}
+
+public void renderExtras() {
+
+    renderResignBtn();
+  
+}
+
+public void renderLostScreen() {
+  
+  fill(17, 22, 23);
+  stroke(17, 22, 23);
+  float rectX = -boardSz/2 - spaceSz;
+  float rectWidth = boardSz + spaceSz*2;
+
+  if (endGameClock == endGamePeriod)
+    gameLogic.switchPlayers();
+endGameClock++;
+  if (endGameClock < endGamePeriod/3) {
+
+    float rectY = -boardSz/2;
+    float rectHeight = boardSz/2*3 * endGameClock/endGamePeriod;
+    rect( rectX, rectY, rectWidth, rectHeight);
+    rect( rectX, boardSz/2, rectWidth, -rectHeight);
+    
+    
+  } else if (endGameClock < endGamePeriod*2/3) {
+      String endText = gameLogic.getWhitesTurn() ? "Black Wins" : "White Wins";
+    
+        rect(rectX, -boardSz/2, rectWidth, boardSz);
+        fill(255);
+        text(endText, -boardSz/6, 0);
+        
+  } else if (endGameClock == endGamePeriod*2/3) {
+    rect(rectX, -boardSz/2, rectWidth, boardSz);
+    gameLogic.initalizeGame();
+  } else if (endGameClock < endGamePeriod) {
+    
+    float rectHeight = -boardSz * (2 - (float) endGameClock/(endGamePeriod/2));
+    rect( rectX, -boardSz/2, rectWidth, -rectHeight);
+    rect( rectX, boardSz/2, rectWidth, rectHeight);
+
+  } else {
+    playerLost = false;
+    endGameClock = 0;
+  }
+  
 }
   
 public void drawBoard( boolean isBlack) {
@@ -89,7 +141,7 @@ public void drawBoard( boolean isBlack) {
     selectedPiece == null 
       ? noMoves 
       : switchedPieces 
-        ? gameLogic.filterMoves(selectedPiece)
+        ? gameLogic.filterMoves(selectedPiece, gameLogic.getWhitesTurn())
         : possibleMoves;
             
 
@@ -192,27 +244,30 @@ public void mousePressed() {
         if ( Arrays.asList(possibleMoves).contains(hoveredSpace) ) {
           ChessTurn playerMove = selectedPiece.move(hoveredSpace);
           gameLogic.gameAdvance(playerMove);
-        } 
-        //check to make sure the space the player is selection is not empty, 
-        //hoveredSpace will be null when the game starts and right after a move before the board has been hovered
-        if (
-          hoveredSpace == null 
-          || hoveredSpace.holding == null 
-          ) return;
+        } else {
+        
+          //check to make sure the space the player is selection is not empty, 
+          //hoveredSpace will be null when the game starts and right after a move before the board has been hovered
+          if (
+            hoveredSpace == null 
+            || hoveredSpace.holding == null 
+            ) return;
 
-        Piece hoverP = hoveredSpace.holding;
+          Piece hoverP = hoveredSpace.holding;
 
-        boolean isPlayersPiece = ( hoverP.isWhite && gameLogic.whitesTurn ) || ( !hoverP.isWhite && !gameLogic.whitesTurn );
+          boolean isPlayersPiece = ( hoverP.isWhite && gameLogic.whitesTurn ) || ( !hoverP.isWhite && !gameLogic.whitesTurn );
 
-        if (isPlayersPiece) {
-          //println(hoveredSpace.holding.toString() + ": " + hoveredSpace.holding.position.notation);
-          if (selectedPiece == hoveredSpace.holding) selectedPiece = null;
-          else {
-            switchedPieces = true;
-            selectedPiece = hoveredSpace.holding;
-          } 
-        }
+          if (isPlayersPiece) {
+            //println(hoveredSpace.holding.toString() + ": " + hoveredSpace.holding.position.notation);
+            if (selectedPiece == hoveredSpace.holding) selectedPiece = null;
+            else {
+              switchedPieces = true;
+              selectedPiece = hoveredSpace.holding;
+            } 
+          }
     
+        }
+        
     } else handleButtonClick();
 };
 
