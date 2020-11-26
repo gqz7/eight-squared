@@ -38,9 +38,15 @@ public class Player {
     public void addPiece ( Piece newPiece ) {
         pieces.add(newPiece);
     }
-
-    @Override
+    
+    
+    @Override 
     public String toString() {
+      return isWhite ? "White Player" : "Black Player";
+    }
+
+
+    public String getPlayerPiecesString() {
         String playersPieces = "";
         for ( Piece gamePiece : pieces ) {
             playersPieces += (gamePiece + ": " + gamePiece.position.notation + ": isInGame; " + gamePiece.isInGame + "\n");
