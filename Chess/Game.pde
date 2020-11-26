@@ -43,6 +43,7 @@ public class Game {
     
     public void endGame() {
       playerLost = true;
+      gamePaused = true;
     }
 
     public boolean getWhitesTurn () {

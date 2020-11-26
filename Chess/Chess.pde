@@ -24,7 +24,7 @@ int prevSecond = second();
 
 int boardSz = 600; //set to 1000 for 4K resolution //size of board width/height
 
-int tranistionPeriod = 1;//35;
+int tranistionPeriod = 50;
 int endGamePeriod = 300;
   
 int spaceSz = boardSz / 8 ;
@@ -38,6 +38,8 @@ boolean playerInCheck = false;
 boolean playerLost = false;
 boolean transitioning = false;
 boolean transitionGraceSecond = false;
+boolean gamePaused = false;
+
 int endGameClock = 0;
 int transitionClock = 0;
 
@@ -48,6 +50,7 @@ color whiteColor = color(255, 247, 227);
 color blackColor = color(46, 39, 24);
 
 int resignBtnX, resignBtnY, resignBtnWidth, resignBtnHeight;
+int pauseBtnX, pauseBtnY, pauseBtnWidth, pauseBtnHeight;
 int leftBtnX, leftBtnY, leftBtnWidth, leftBtnHeight;
 int rightBtnX, rightBtnY, rightBtnWidth, rightBtnHeight;
 
@@ -86,53 +89,6 @@ void draw() {
   else if (playerLost) renderLostScreen();
   else renderExtras();
 
-}
-
-public void renderExtras() {
-
-    renderResignBtn();
-  
-}
-
-public void renderLostScreen() {
-  
-  fill(17, 22, 23);
-  stroke(17, 22, 23);
-  float rectX = -boardSz/2 - spaceSz;
-  float rectWidth = boardSz + spaceSz*2;
-
-  if (endGameClock == endGamePeriod)
-    gameLogic.switchPlayers();
-endGameClock++;
-  if (endGameClock < endGamePeriod/3) {
-
-    float rectY = -boardSz/2;
-    float rectHeight = boardSz/2*3 * endGameClock/endGamePeriod;
-    rect( rectX, rectY, rectWidth, rectHeight);
-    rect( rectX, boardSz/2, rectWidth, -rectHeight);
-    
-    
-  } else if (endGameClock < endGamePeriod*2/3) {
-      String endText = gameLogic.getWhitesTurn() ? "Black Wins" : "White Wins";
-    
-        rect(rectX, -boardSz/2, rectWidth, boardSz);
-        fill(255);
-        text(endText, -boardSz/6, 0);
-        
-  } else if (endGameClock == endGamePeriod*2/3) {
-    rect(rectX, -boardSz/2, rectWidth, boardSz);
-    gameLogic.initalizeGame();
-  } else if (endGameClock < endGamePeriod) {
-    
-    float rectHeight = -boardSz * (2 - (float) endGameClock/(endGamePeriod/2));
-    rect( rectX, -boardSz/2, rectWidth, -rectHeight);
-    rect( rectX, boardSz/2, rectWidth, rectHeight);
-
-  } else {
-    playerLost = false;
-    endGameClock = 0;
-  }
-  
 }
   
 public void drawBoard( boolean isBlack) {
@@ -237,7 +193,7 @@ public void mousePressed() {
     ) return;
 
   if (
-      !isChoosing && (
+      !isChoosing && !gamePaused && (
       ( mouseX > width/2 - boardSz/2 && mouseX < width/2 + boardSz/2 )
       && ( mouseY <= height/2 + boardSz/2 && mouseY >= height/2 - boardSz/2 )) )
      {
@@ -273,6 +229,10 @@ public void mousePressed() {
 
 public void handleButtonClick( ) {
     String choice = getClickedButton();
+
+   if (choice == "pause") gamePaused = !gamePaused;
+    
+   if (gamePaused) return;
     
    if (choice == "leftChoice")
       choice = choices[0];
@@ -280,8 +240,7 @@ public void handleButtonClick( ) {
       choice = choices[1];
        
   switch (choice) {
-    case "Queen":
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+    case "Queen":                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
       gameLogic.gameBoard.transformPiece(selectedPiece, "Q");
       isChoosing = false;
       selectedPiece = null;
@@ -382,9 +341,6 @@ public void renderPiece (Piece renderingPiece) {
 }
 
 public void renderLostPieces() {
-
-  int count = 0;
-
   pushMatrix();
 
   List<Piece> lostWhitePieces = gameLogic.getLostPieces(true); //boolean passed indicates if it will recieve White, or Black player's pieces
@@ -527,7 +483,7 @@ public String mapNumToChessLetter ( int number ) {
 
 public void manageTimer() {
 
-  if (transitioning) return;
+  if (transitioning || gamePaused) return;
 
   int curSecond = second();
 
@@ -577,6 +533,55 @@ public void renderChoices() {
   popMatrix();
 }
 
+
+public void renderExtras() {
+    renderPauseBtn();
+    renderResignBtn();
+  
+}
+
+public void renderLostScreen() {
+  
+  fill(17, 22, 23);
+  stroke(17, 22, 23);
+  float rectX = -boardSz/2 - spaceSz;
+  float rectWidth = boardSz + spaceSz*2;
+
+  endGameClock++;
+
+  if (endGameClock < endGamePeriod/3) {
+
+    float rectY = -boardSz/2;
+    float rectHeight = boardSz/2*3 * endGameClock/endGamePeriod;
+    rect( rectX, rectY, rectWidth, rectHeight);
+    rect( rectX, boardSz/2, rectWidth, -rectHeight);
+    
+    
+  } else if (endGameClock < endGamePeriod*2/3) {
+      String endText = gameLogic.getWhitesTurn() ? "Black Wins" : "White Wins";
+    
+        rect(rectX, -boardSz/2, rectWidth, boardSz);
+        fill(255);
+        text(endText, -boardSz/6, 0);
+        
+  } else if (endGameClock == endGamePeriod*2/3) {
+    rect(rectX, -boardSz/2, rectWidth, boardSz);
+    gameLogic.initalizeGame();
+    
+  } else if (endGameClock < endGamePeriod) {
+    
+    float rectHeight = -boardSz * (2 - (float) endGameClock/(endGamePeriod/2));
+    rect( rectX, -boardSz/2, rectWidth, -rectHeight);
+    rect( rectX, boardSz/2, rectWidth, rectHeight);
+
+  } else {
+    playerLost = false;
+    endGameClock = 0;
+    gamePaused = false;
+  }
+  
+}
+
 public void setBtnPositions () {
   resignBtnX = boardSz/2 + boardSz/16 + width/2;
   resignBtnY = boardSz/2 + boardSz/10 + height/2;
@@ -593,6 +598,11 @@ public void setBtnPositions () {
   rightBtnWidth = boardSz/4 + boardSz/8; 
   rightBtnHeight = boardSz/4;
   
+  pauseBtnX = -boardSz/2 - boardSz/4 + width/2;;
+  pauseBtnY = boardSz/2 + boardSz/10 + height/2;
+  pauseBtnWidth = boardSz/8; 
+  pauseBtnHeight = boardSz/8;
+
 }
 
 public void renderResignBtn () {
@@ -606,6 +616,26 @@ public void renderResignBtn () {
  
 }
 
+public void renderPauseBtn () {
+  fill(0);
+  noStroke();
+  rect(pauseBtnX - width/2, pauseBtnY - height/2, pauseBtnWidth, pauseBtnHeight);
+  fill(255);
+  if (gamePaused) {
+    triangle( 
+      pauseBtnX - width/2 + pauseBtnWidth/5 , 
+      pauseBtnY - height/2 + pauseBtnHeight/6, 
+      pauseBtnX - width/2 + pauseBtnWidth/5 , 
+      pauseBtnY - height/2 + pauseBtnHeight/6 + pauseBtnHeight*2/3, 
+      pauseBtnX - width/2 + pauseBtnWidth/1.2, 
+      pauseBtnY - height/2 + pauseBtnHeight/2
+    );
+  } else {
+    rect(pauseBtnX - width/2 + pauseBtnWidth/5 , pauseBtnY - height/2 + pauseBtnHeight/6, pauseBtnWidth/6, pauseBtnHeight*2/3);
+    rect(pauseBtnX - width/2 + pauseBtnWidth/1.6 , pauseBtnY - height/2 + pauseBtnHeight/6, pauseBtnWidth/6, pauseBtnHeight*2/3);
+  }
+}
+
 public String getClickedButton () {
 
   if (mouseX < leftBtnX + leftBtnWidth && mouseX > leftBtnX  && mouseY > leftBtnY && mouseY < leftBtnY+leftBtnHeight )
@@ -614,6 +644,8 @@ public String getClickedButton () {
     return "rightChoice";
   else if (!isChoosing && mouseX < resignBtnX + resignBtnWidth && mouseX > resignBtnX  && mouseY > resignBtnY && mouseY < resignBtnY+resignBtnHeight )
     return "resign";
+  else if (!isChoosing && mouseX < pauseBtnX + pauseBtnWidth && mouseX > pauseBtnX  && mouseY > pauseBtnY && mouseY < pauseBtnY+pauseBtnHeight )
+    return "pause";
 
   return "none";
 
