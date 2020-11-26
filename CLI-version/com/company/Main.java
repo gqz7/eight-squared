@@ -1,15 +1,17 @@
 package com.company;
 
 import com.company.ChessLogic.Game;
+import com.company.ChessLogic.GameConfigure;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        var chessGame = new Game();
+        GameConfigure.welcomeMessage();
 
-        chessGame.printPlayerPieces();
-        chessGame.printCurrentGame();
+        Game chessGame = GameConfigure.createGame();
+
+        chessGame.gameStart();
 
     }
 }
