@@ -5,16 +5,19 @@ import java.util.List;
 public class King extends Piece {
 
     private String name;
+    private boolean hasMoved; //only needed for rook and king for castling 
+    
     public King (BoardPlace startPos) {
         super(startPos);
         name = "King";
+        hasMoved = false;
 
     }
     
     public King (BoardPlace startPos, boolean isWhite) {
         super(startPos, isWhite);
         name = "King";
-
+        hasMoved = false;
     }
     
     @Override
@@ -58,7 +61,18 @@ public class King extends Piece {
                 }
             }
         }
-
+    //if king hasnt moved, check for castle posibility
+        //check for CASTLE left
+          //if three spaces to left are empty (bcd)
+          //if rook hasnt moved also (a) 
+         //move king two to left (c), move rook one to left of king (d)
+        
+        //check for CASTLE right
+          //if two spaces to left are empty (fg)
+          //if rook hasnt moved also (h)
+         //move king two to right (g), move rook one to right of king (f)
+        
+        
         return movesList.toArray( new BoardPlace[0] );
     }
 }

@@ -4,15 +4,17 @@ import java.util.List;
 
 public class Rook extends Piece {
     private String name;
+    private boolean hasMoved; //only needed for rook and king for castling 
     public Rook (BoardPlace startPos) {
         super(startPos);
         name = "Rook";
+        hasMoved = false;
     }
     
     public Rook (BoardPlace startPos, boolean isWhite) {
         super(startPos, isWhite);
         name = "Rook";
-
+        hasMoved = false;
     }
     
     @Override
